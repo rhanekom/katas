@@ -1,6 +1,7 @@
 ﻿namespace StringKata
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
 
@@ -10,7 +11,6 @@
 
         private const string Expression = "(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$";
         private readonly Regex formatExpression = new Regex(Expression, RegexOptions.Compiled);
-
 
         #endregion
 
@@ -32,14 +32,19 @@
             string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
             var numbers = split.Select(int.Parse).ToList();
 
+            AssertNoNegativeNumbers(numbers);
+
+            return numbers.Sum();
+        }
+
+        private static void AssertNoNegativeNumbers(IEnumerable<int> numbers)
+        {
             var negatives = numbers.Where(x => x < 0).ToArray();
 
             if (negatives.Any())
             {
                 throw new ArgumentException("negatives not allowed : " + string.Join(",", negatives));
             }
-            
-            return numbers.Sum();
         }
 
         private string MatchNumbers(string numbers, out char[] delimiters)

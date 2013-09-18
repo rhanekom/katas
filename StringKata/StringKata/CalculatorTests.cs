@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using NUnit.Framework;
-
-namespace StringKata
+﻿namespace StringKata
 {
+    using System;
+    using NUnit.Framework;
+
     [TestFixture]
     public class CalculatorTests
     {
@@ -59,44 +58,42 @@ namespace StringKata
         [Test]
         public void Add_Throws_For_Negative_Numbers()
         {
-            try
-            {
-                subject.Add("-5,3");
-                Assert.Fail("Exception not thrown for negative numbers.");
-            }
-            catch (ArgumentException ex)
-            {
-               StringAssert.Contains("negatives not allowed", ex.Message); 
-            }
+            AssertArgumentException("-5,3", ex => StringAssert.Contains("negatives not allowed", ex.Message));
         }
 
         [Test]
         public void Add_Throws_For_Negative_Numbers_Includes_Number()
         {
-            try
-            {
-                subject.Add("-5,3");
-                Assert.Fail("Exception not thrown for negative numbers.");
-            }
-            catch (ArgumentException ex)
-            {
-                StringAssert.Contains("-5", ex.Message);
-            }
+            AssertArgumentException("-5,3", ex => StringAssert.Contains("-5", ex.Message));
         }
 
         [Test]
         public void Add_Throws_For_Negative_Numbers_Includes_Multiple_Numbers()
         {
+            AssertArgumentException(
+                "-5,3,-2", 
+                ex =>
+                {
+                    StringAssert.Contains("-5", ex.Message);
+                    StringAssert.Contains("-2", ex.Message);
+                });
+        }
+
+        #endregion
+
+        #region Private Members
+
+        private void AssertArgumentException(string numbers, Action<ArgumentException> asserts)
+        {
             try
             {
-                subject.Add("-5,3,-2");
+                subject.Add(numbers);
                 Assert.Fail("Exception not thrown for negative numbers.");
             }
             catch (ArgumentException ex)
             {
-                StringAssert.Contains("-5", ex.Message);
-                StringAssert.Contains("-2", ex.Message);
-            }
+                asserts(ex);
+            } 
         }
 
         #endregion
