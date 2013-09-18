@@ -29,6 +29,12 @@ namespace StringKata
             Assert.That(subject.Add(string.Empty), Is.EqualTo(0));
         }
 
+        [Test]
+        public void Add_Returns_Number_For_Single_Number()
+        {
+            Assert.That(subject.Add("5"), Is.EqualTo(5));
+        }
+
         #endregion
     }
 }
