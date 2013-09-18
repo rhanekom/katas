@@ -79,6 +79,13 @@
                 });
         }
 
+        [Test]
+        public void Add_Should_Ignore_Numbers_Larger_Than_Thousand()
+        {
+            Assert.That(subject.Add("2,1001"), Is.EqualTo(2));
+            Assert.That(subject.Add("2,1000"), Is.EqualTo(1002));
+        }
+
         #endregion
 
         #region Private Members

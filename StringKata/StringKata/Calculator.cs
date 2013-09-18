@@ -30,7 +30,7 @@
         private static int Add(string cleanNumbers, char[] delimiters)
         {
             string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-            var numbers = split.Select(int.Parse).ToList();
+            var numbers = split.Select(int.Parse).Where(x => x <= 1000).ToList();
 
             AssertNoNegativeNumbers(numbers);
 
