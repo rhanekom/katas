@@ -7,7 +7,7 @@
     {
         public int Add(string numbers)
         {
-            string[] split = numbers.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] split = numbers.Split(new[] { ',', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             return split.Select(int.Parse).Sum();
         }
     }

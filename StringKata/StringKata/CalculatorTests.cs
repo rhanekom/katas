@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Diagnostics;
+using NUnit.Framework;
 
 namespace StringKata
 {
@@ -40,6 +41,12 @@ namespace StringKata
         {
             Assert.That(subject.Add("5,3"), Is.EqualTo(8));
             Assert.That(subject.Add("5,3,6"), Is.EqualTo(14));
+        }
+
+        [Test]
+        public void Add_Can_Use_Newline_As_Delimiter_Instead_Of_Comma()
+        {
+            Assert.That(subject.Add("1\n2,3"), Is.EqualTo(6));
         }
 
         #endregion
