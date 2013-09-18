@@ -1,0 +1,4 @@
+katas
+=====
+
+Programming katas
