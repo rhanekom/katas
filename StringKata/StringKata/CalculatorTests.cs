@@ -59,7 +59,44 @@ namespace StringKata
         [Test]
         public void Add_Throws_For_Negative_Numbers()
         {
-            Assert.Throws<ArgumentException>(() => subject.Add("-5,3"), "negatives not allowed");
+            try
+            {
+                subject.Add("-5,3");
+                Assert.Fail("Exception not thrown for negative numbers.");
+            }
+            catch (ArgumentException ex)
+            {
+               StringAssert.Contains("negatives not allowed", ex.Message); 
+            }
+        }
+
+        [Test]
+        public void Add_Throws_For_Negative_Numbers_Includes_Number()
+        {
+            try
+            {
+                subject.Add("-5,3");
+                Assert.Fail("Exception not thrown for negative numbers.");
+            }
+            catch (ArgumentException ex)
+            {
+                StringAssert.Contains("-5", ex.Message);
+            }
+        }
+
+        [Test]
+        public void Add_Throws_For_Negative_Numbers_Includes_Multiple_Numbers()
+        {
+            try
+            {
+                subject.Add("-5,3,-2");
+                Assert.Fail("Exception not thrown for negative numbers.");
+            }
+            catch (ArgumentException ex)
+            {
+                StringAssert.Contains("-5", ex.Message);
+                StringAssert.Contains("-2", ex.Message);
+            }
         }
 
         #endregion

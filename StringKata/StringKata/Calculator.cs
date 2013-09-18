@@ -31,10 +31,12 @@
         {
             string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
             var numbers = split.Select(int.Parse).ToList();
-            
-            if (numbers.Any(x => x < 0))
+
+            var negatives = numbers.Where(x => x < 0).ToArray();
+
+            if (negatives.Any())
             {
-                throw new ArgumentException("negatives not allowed");
+                throw new ArgumentException("negatives not allowed : " + string.Join(",", negatives));
             }
             
             return numbers.Sum();
