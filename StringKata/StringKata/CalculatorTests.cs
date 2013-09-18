@@ -35,6 +35,13 @@ namespace StringKata
             Assert.That(subject.Add("5"), Is.EqualTo(5));
         }
 
+        [Test]
+        public void Add_Returns_Sum_Of_Numbers_For_Multiple_Numbers()
+        {
+            Assert.That(subject.Add("5,3"), Is.EqualTo(8));
+            Assert.That(subject.Add("5,3,6"), Is.EqualTo(14));
+        }
+
         #endregion
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace StringKata
 {
+    using System.Linq;
+
     public class Calculator
     {
         public int Add(string numbers)
@@ -9,7 +11,8 @@
                 return 0;
             }
 
-            return int.Parse(numbers);
+            string[] split = numbers.Split(new[] { ',' });
+            return split.Select(int.Parse).Sum();
         }
     }
 }
