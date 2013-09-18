@@ -6,21 +6,45 @@
 
     public class Calculator
     {
+        #region Globals
+
+        private const string Expression = "(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$";
+        private readonly Regex formatExpression = new Regex(Expression, RegexOptions.Compiled);
+
+
+        #endregion
+
+        #region Public Members
+
         public int Add(string numbers)
         {
-            const string expression = "(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$";
-            var regularExpression = new Regex(expression);
+            char[] delimiters;
+            var cleanNumbers = MatchNumbers(numbers, out delimiters);
+            return Add(cleanNumbers, delimiters);
+        }
 
-            var match = regularExpression.Match(numbers);
+        #endregion
+
+        #region Private Members
+        
+        private static int Add(string cleanNumbers, char[] delimiters)
+        {
+            string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+            return split.Select(int.Parse).Sum();
+        }
+
+        private string MatchNumbers(string numbers, out char[] delimiters)
+        {
+            var match = formatExpression.Match(numbers);
 
             var delimiterMatch = match.Groups["delimiter"];
             var numberMatch = match.Groups["numbers"];
 
             string cleanNumbers = numberMatch.Value;
-            char[] delimiters = delimiterMatch.Success ? new[] { Convert.ToChar(delimiterMatch.Value) } : new[] { ',', '\n' };
-
-            string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-            return split.Select(int.Parse).Sum();
+            delimiters = delimiterMatch.Success ? new[] { Convert.ToChar(delimiterMatch.Value) } : new[] { ',', '\n' };
+            return cleanNumbers;
         }
+
+        #endregion
     }
 }
