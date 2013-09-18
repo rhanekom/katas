@@ -30,7 +30,14 @@
         private static int Add(string cleanNumbers, char[] delimiters)
         {
             string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-            return split.Select(int.Parse).Sum();
+            var numbers = split.Select(int.Parse).ToList();
+            
+            if (numbers.Any(x => x < 0))
+            {
+                throw new ArgumentException("negatives not allowed");
+            }
+            
+            return numbers.Sum();
         }
 
         private string MatchNumbers(string numbers, out char[] delimiters)

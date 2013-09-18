@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace StringKata
@@ -53,6 +54,12 @@ namespace StringKata
         public void Add_Can_Take_Custom_Delimiter()
         {
             Assert.That(subject.Add("//;\n1;2"), Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Add_Throws_For_Negative_Numbers()
+        {
+            Assert.Throws<ArgumentException>(() => subject.Add("-5,3"), "negatives not allowed");
         }
 
         #endregion
