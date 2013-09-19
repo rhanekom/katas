@@ -1,8 +1,7 @@
-﻿using Moq;
-
-namespace StringKata
+﻿namespace StringKata.Tests.StringKata
 {
     using System;
+    using Moq;
     using NUnit.Framework;
 
     [TestFixture]
@@ -111,7 +110,7 @@ namespace StringKata
         [Test]
         public void Add_Outputs_Result_To_Console()
         {
-            output.Setup(x => x.Write("7"));
+            output.Setup(x => x.Write("The result is 7"));
             
             subject.Add("3,4");
 

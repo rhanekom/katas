@@ -1,4 +1,4 @@
-﻿namespace StringKata.Tests
+﻿namespace StringKata.Tests.StringKata
 {
     using System;
     using System.IO;

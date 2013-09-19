@@ -47,7 +47,7 @@
 
         private void WriteResult(int result)
         {
-            output.Write(result.ToString());
+            output.Write("The result is " + result);
         }
 
         private int Add(string cleanNumbers, string[] delimiters)
