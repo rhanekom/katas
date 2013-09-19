@@ -10,9 +10,7 @@
         #region Globals
 
         private readonly Regex formatRegex = new Regex("(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$", RegexOptions.Compiled);
-        private readonly Regex delimiterRegex = new Regex("\\[(?<delimiter>.*)\\]", RegexOptions.Compiled);
-
-
+        private readonly Regex delimiterRegex = new Regex("\\[(?<delimiter>[^\\]]*)\\]", RegexOptions.Compiled);
 
         #endregion
 
@@ -65,16 +63,31 @@
 
             if (delimiterMatch.Success)
             {
-                return new[] { ParseDelimiter(delimiterMatch.Value) };
+                return ParseDelimiters(delimiterMatch.Value);
             }
 
             return new[] { ",", "\n" };
         }
 
-        private string ParseDelimiter(string value)
+        private string[] ParseDelimiters(string value)
         {
-            var match = delimiterRegex.Match(value);
-            return !match.Success ? value :  match.Groups["delimiter"].Value;
+            Match match = delimiterRegex.Match(value);
+            
+            if (!match.Success)
+            {
+                return new[] { value };
+            }
+
+            var delimiters = new List<string>();
+
+            do
+            {
+                delimiters.Add(match.Groups["delimiter"].Value);
+                match = match.NextMatch();
+            } 
+            while (match.Success);
+
+            return delimiters.ToArray();
         }
 
         private string GetNumberValue(Match match)

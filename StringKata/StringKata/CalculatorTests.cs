@@ -92,6 +92,12 @@
             Assert.That(subject.Add("//[***]\n1***2***3"), Is.EqualTo(6));
         }
 
+        [Test]
+        public void Add_Can_Specify_Multiple_Custom_Delimiters()
+        {
+            Assert.That(subject.Add("//[*][%]\n1*2%4"), Is.EqualTo(7));
+        }
+
         #endregion
 
         #region Private Members
