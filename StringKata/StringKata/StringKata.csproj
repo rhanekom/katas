@@ -46,9 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculator.cs" />
-    <Compile Include="CalculatorTests.cs" />
+    <Compile Include="Tests\CalculatorTests.cs" />
+    <Compile Include="ConsoleOutput.cs" />
     <Compile Include="IOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ConsoleOutputTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

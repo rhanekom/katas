@@ -112,7 +112,9 @@ namespace StringKata
         public void Add_Outputs_Result_To_Console()
         {
             output.Setup(x => x.Write("7"));
+            
             subject.Add("3,4");
+
             output.VerifyAll();
         }
 
