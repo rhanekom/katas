@@ -72,12 +72,11 @@
         private string[] ParseDelimiters(string value)
         {
             Match match = delimiterRegex.Match(value);
-            
-            if (!match.Success)
-            {
-                return new[] { value };
-            }
+            return !match.Success ? new[] { value } : ParseDelimiters(match);
+        }
 
+        private static string[] ParseDelimiters(Match match)
+        {
             var delimiters = new List<string>();
 
             do
