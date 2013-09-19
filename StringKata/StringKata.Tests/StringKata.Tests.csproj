@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console\ProgramTests.cs" />
     <Compile Include="Core\CalculatorTests.cs" />
     <Compile Include="Core\ConsoleOutputTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,10 +53,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Console\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\StringKata.Console\StringKata.Console.csproj">
+      <Project>{EFA0BAD5-F61B-4B1A-8767-246AD4F657DC}</Project>
+      <Name>StringKata.Console</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StringKata.Core\StringKata.Core.csproj">
       <Project>{131EE1C4-7CD7-438F-BCEE-6993A6418BCF}</Project>
       <Name>StringKata.Core</Name>
