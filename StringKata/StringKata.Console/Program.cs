@@ -21,8 +21,27 @@
         {
             if (args.Length == 0)
             {
-                Output.Write("Usage : scalc '1,2,3'");
+                PrintUsage();
             }
+            else
+            {
+                Calculate(args[0]);
+            }
+        }
+
+        #endregion
+
+        #region Private Members
+
+        private static void Calculate(string s)
+        {
+            var calculator = new Calculator(Output);
+            calculator.Add(s);
+        }
+
+        private static void PrintUsage()
+        {
+            Output.Write("Usage : scalc 1,2,3");
         }
 
         #endregion

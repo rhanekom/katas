@@ -36,6 +36,15 @@
             output.VerifyAll();
         }
 
+        [Test]
+        public void Main_Writes_Result_If_String_Specified()
+        {
+            output.Setup(x => x.Write("The result is 6"));
+            
+            Program.Main(new[] { "1,2,3" });
+            output.VerifyAll();
+        }
+
         #endregion
     }
 }
