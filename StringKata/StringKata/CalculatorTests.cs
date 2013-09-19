@@ -98,6 +98,12 @@
             Assert.That(subject.Add("//[*][%]\n1*2%4"), Is.EqualTo(7));
         }
 
+        [Test]
+        public void Add_Can_Specify_Multiple_Custom_Delimiters_With_Length_Longer_Than_One()
+        {
+            Assert.That(subject.Add("//[*(][%][**]\n1*(2%4**6"), Is.EqualTo(13));
+        }
+
         #endregion
 
         #region Private Members
