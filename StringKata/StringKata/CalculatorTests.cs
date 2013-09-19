@@ -86,6 +86,12 @@
             Assert.That(subject.Add("2,1000"), Is.EqualTo(1002));
         }
 
+        [Test]
+        public void Add_Delimiters_Can_Be_Of_Any_Length()
+        {
+            Assert.That(subject.Add("//[***]\n1***2***3"), Is.EqualTo(6));
+        }
+
         #endregion
 
         #region Private Members

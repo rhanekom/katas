@@ -9,8 +9,10 @@
     {
         #region Globals
 
-        private const string Expression = "(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$";
-        private readonly Regex formatExpression = new Regex(Expression, RegexOptions.Compiled);
+        private readonly Regex formatRegex = new Regex("(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$", RegexOptions.Compiled);
+        private readonly Regex delimiterRegex = new Regex("\\[(?<delimiter>.*)\\]", RegexOptions.Compiled);
+
+
 
         #endregion
 
@@ -18,7 +20,7 @@
 
         public int Add(string numbers)
         {
-            char[] delimiters;
+            string[] delimiters;
             var cleanNumbers = MatchNumbers(numbers, out delimiters);
             return Add(cleanNumbers, delimiters);
         }
@@ -27,7 +29,7 @@
 
         #region Private Members
         
-        private static int Add(string cleanNumbers, char[] delimiters)
+        private int Add(string cleanNumbers, string[] delimiters)
         {
             string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
             var numbers = split.Select(int.Parse).Where(x => x <= 1000).ToList();
@@ -47,15 +49,38 @@
             }
         }
 
-        private string MatchNumbers(string numbers, out char[] delimiters)
+        private string MatchNumbers(string numbers, out string[] delimiters)
         {
-            var match = formatExpression.Match(numbers);
+            var match = formatRegex.Match(numbers);
 
+            var cleanNumbers = GetNumberValue(match);
+            delimiters = GetDelimiterValue(match);
+            
+            return cleanNumbers;
+        }
+
+        private string[] GetDelimiterValue(Match match)
+        {
             var delimiterMatch = match.Groups["delimiter"];
-            var numberMatch = match.Groups["numbers"];
 
+            if (delimiterMatch.Success)
+            {
+                return new[] { ParseDelimiter(delimiterMatch.Value) };
+            }
+
+            return new[] { ",", "\n" };
+        }
+
+        private string ParseDelimiter(string value)
+        {
+            var match = delimiterRegex.Match(value);
+            return !match.Success ? value :  match.Groups["delimiter"].Value;
+        }
+
+        private string GetNumberValue(Match match)
+        {
+            var numberMatch = match.Groups["numbers"];
             string cleanNumbers = numberMatch.Value;
-            delimiters = delimiterMatch.Success ? new[] { Convert.ToChar(delimiterMatch.Value) } : new[] { ',', '\n' };
             return cleanNumbers;
         }
 
