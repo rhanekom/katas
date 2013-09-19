@@ -1,4 +1,6 @@
-﻿namespace StringKata
+﻿using Moq;
+
+namespace StringKata
 {
     using System;
     using NUnit.Framework;
@@ -8,6 +10,7 @@
     {
         #region Globals
 
+        private Mock<IOutput> output;
         private Calculator subject;
 
         #endregion
@@ -17,7 +20,8 @@
         [SetUp]
         public void Setup()
         {
-            subject = new Calculator();
+            output = new Mock<IOutput>();
+            subject = new Calculator(output.Object);
         }
 
         #endregion
@@ -102,6 +106,14 @@
         public void Add_Can_Specify_Multiple_Custom_Delimiters_With_Length_Longer_Than_One()
         {
             Assert.That(subject.Add("//[*(][%][**]\n1*(2%4**6"), Is.EqualTo(13));
+        }
+
+        [Test]
+        public void Add_Outputs_Result_To_Console()
+        {
+            output.Setup(x => x.Write("7"));
+            subject.Add("3,4");
+            output.VerifyAll();
         }
 
         #endregion

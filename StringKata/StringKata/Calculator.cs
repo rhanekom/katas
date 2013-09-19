@@ -11,22 +11,45 @@
 
         private readonly Regex formatRegex = new Regex("(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$", RegexOptions.Compiled);
         private readonly Regex delimiterRegex = new Regex("\\[(?<delimiter>[^\\]]*)\\]", RegexOptions.Compiled);
+        private readonly IOutput output;
 
         #endregion
+        
+        #region Construction
 
+        public Calculator(IOutput output)
+        {
+            this.output = output;
+        }
+
+        #endregion
+        
         #region Public Members
 
         public int Add(string numbers)
         {
-            string[] delimiters;
-            var cleanNumbers = MatchNumbers(numbers, out delimiters);
-            return Add(cleanNumbers, delimiters);
+            var result = GetResult(numbers);
+            WriteResult(result);
+            return result;
         }
 
         #endregion
 
         #region Private Members
-        
+
+        private int GetResult(string numbers)
+        {
+            string[] delimiters;
+            var cleanNumbers = MatchNumbers(numbers, out delimiters);
+            var result = Add(cleanNumbers, delimiters);
+            return result;
+        }
+
+        private void WriteResult(int result)
+        {
+            output.Write(result.ToString());
+        }
+
         private int Add(string cleanNumbers, string[] delimiters)
         {
             string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
