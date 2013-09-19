@@ -21,5 +21,10 @@
             Assert.AreEqual(testMessage + Environment.NewLine, writer.ToString());
         }
 
+        [TearDown]
+        public void Teardown()
+        {
+            Console.SetOut(Console.Out);
+        }
     }
 }
