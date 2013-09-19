@@ -1,4 +1,4 @@
-﻿namespace StringKata
+﻿namespace StringKata.Core
 {
     using System;
     using System.Collections.Generic;

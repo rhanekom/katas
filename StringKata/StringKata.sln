@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringKata", "StringKata.csproj", "{131EE1C4-7CD7-438F-BCEE-6993A6418BCF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scalc", "..\scalc\scalc.csproj", "{EFA0BAD5-F61B-4B1A-8767-246AD4F657DC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringKata.Tests", "StringKata.Tests\StringKata.Tests.csproj", "{19F5AA3B-98E3-4788-8398-B43DC74A877D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringKata.Core", "StringKata.Core\StringKata.Core.csproj", "{131EE1C4-7CD7-438F-BCEE-6993A6418BCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringKata.Console", "StringKata.Console\StringKata.Console.csproj", "{EFA0BAD5-F61B-4B1A-8767-246AD4F657DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{131EE1C4-7CD7-438F-BCEE-6993A6418BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{131EE1C4-7CD7-438F-BCEE-6993A6418BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{131EE1C4-7CD7-438F-BCEE-6993A6418BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -21,10 +25,6 @@ Global
 		{EFA0BAD5-F61B-4B1A-8767-246AD4F657DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFA0BAD5-F61B-4B1A-8767-246AD4F657DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFA0BAD5-F61B-4B1A-8767-246AD4F657DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19F5AA3B-98E3-4788-8398-B43DC74A877D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

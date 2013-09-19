@@ -1,8 +1,9 @@
-﻿namespace StringKata.Tests.StringKata
+﻿namespace StringKata.Tests.Core
 {
     using System;
     using System.IO;
     using NUnit.Framework;
+    using StringKata.Core;
 
     [TestFixture]
     public class ConsoleOutputTests

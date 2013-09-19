@@ -7,8 +7,8 @@
     <ProjectGuid>{EFA0BAD5-F61B-4B1A-8767-246AD4F657DC}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>scalc</RootNamespace>
-    <AssemblyName>scalc</AssemblyName>
+    <RootNamespace>StringKata.Console</RootNamespace>
+    <AssemblyName>StringKata.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

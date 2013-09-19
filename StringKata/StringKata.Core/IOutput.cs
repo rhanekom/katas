@@ -1,4 +1,4 @@
-﻿namespace StringKata
+﻿namespace StringKata.Core
 {
     public interface IOutput
     {
