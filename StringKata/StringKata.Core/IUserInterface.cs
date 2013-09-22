@@ -1,7 +1,9 @@
 ﻿namespace StringKata.Core
 {
-    public interface IOutput
+    public interface IUserInterface
     {
+        string GetNextUserInput();
+
         void Write(string output);
     }
 }

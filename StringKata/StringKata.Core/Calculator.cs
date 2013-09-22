@@ -11,15 +11,15 @@
 
         private readonly Regex formatRegex = new Regex("(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$", RegexOptions.Compiled);
         private readonly Regex delimiterRegex = new Regex("\\[(?<delimiter>[^\\]]*)\\]", RegexOptions.Compiled);
-        private readonly IOutput output;
+        private readonly IUserInterface userInterface;
 
         #endregion
         
         #region Construction
 
-        public Calculator(IOutput output)
+        public Calculator(IUserInterface userInterface)
         {
-            this.output = output;
+            this.userInterface = userInterface;
         }
 
         #endregion
@@ -47,7 +47,7 @@
 
         private void WriteResult(int result)
         {
-            output.Write("The result is " + result);
+            userInterface.Write("The result is " + result);
         }
 
         private int Add(string cleanNumbers, string[] delimiters)

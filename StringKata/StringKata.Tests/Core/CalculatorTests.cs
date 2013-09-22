@@ -10,7 +10,7 @@
     {
         #region Globals
 
-        private Mock<IOutput> output;
+        private Mock<IUserInterface> output;
         private Calculator subject;
 
         #endregion
@@ -20,7 +20,7 @@
         [SetUp]
         public void Setup()
         {
-            output = new Mock<IOutput>();
+            output = new Mock<IUserInterface>();
             subject = new Calculator(output.Object);
         }
 

@@ -14,7 +14,7 @@
             var writer = new StringWriter();
             Console.SetOut(writer);
 
-            var output = new ConsoleOutput();
+            var output = new ConsoleUserInterface();
             
             const string testMessage = "Test Message";
             

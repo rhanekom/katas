@@ -10,7 +10,7 @@
     {
         #region Globals
 
-        private Mock<IOutput> output;
+        private Mock<IUserInterface> ui;
 
         #endregion
         
@@ -19,8 +19,8 @@
         [SetUp]
         public void Setup()
         {
-            output = new Mock<IOutput>();
-            Program.Output = output.Object;
+            ui = new Mock<IUserInterface>();
+            Program.UI = ui.Object;
         }
 
         #endregion
@@ -30,19 +30,30 @@
         [Test]
         public void Main_Writes_Usage_If_No_Parameters_Specified()
         {
-            output.Setup(x => x.Write(It.Is((string s) => s.Contains("Usage"))));
+            ui.Setup(x => x.Write(It.Is((string s) => s.Contains("Usage"))));
             
             Program.Main(new string[0]);
-            output.VerifyAll();
+            ui.VerifyAll();
         }
 
         [Test]
         public void Main_Writes_Result_If_String_Specified()
         {
-            output.Setup(x => x.Write("The result is 6"));
+            ui.Setup(x => x.Write("The result is 6"));
             
             Program.Main(new[] { "1,2,3" });
-            output.VerifyAll();
+            ui.VerifyAll();
+        }
+
+        [Test]
+        public void Main_Asks_For_Results_Until_No_More_Input()
+        {
+            ui.Setup(x => x.Write("Another input please"));
+            ui.Setup(x => x.GetNextUserInput()).Returns(string.Empty);
+
+            Program.Main(new[] { "1,2,3" });
+
+            ui.VerifyAll();
         }
 
         #endregion
