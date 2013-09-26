@@ -9,6 +9,7 @@
     {
         #region Globals
 
+        private readonly string[] defaultDelimiters = new[] { ",", "\n" };
         private readonly Regex formatRegex = new Regex("(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$", RegexOptions.Compiled);
         private readonly Regex delimiterRegex = new Regex("\\[(?<delimiter>[^\\]]*)\\]", RegexOptions.Compiled);
 
@@ -19,7 +20,8 @@
         public IList<int> Parse(string expression)
         {
             string[] delimiters;
-            var cleanNumbers = MatchNumbers(expression, out delimiters);
+            string cleanNumbers = MatchNumbers(expression, out delimiters);
+            
             string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
             return split.Select(int.Parse).Where(x => x <= 1000).ToList();
         }
@@ -41,13 +43,7 @@
         private string[] GetDelimiterValue(Match match)
         {
             var delimiterMatch = match.Groups["delimiter"];
-
-            if (delimiterMatch.Success)
-            {
-                return ParseDelimiters(delimiterMatch.Value);
-            }
-
-            return new[] { ",", "\n" };
+            return delimiterMatch.Success ? ParseDelimiters(delimiterMatch.Value) : defaultDelimiters;
         }
 
         private string[] ParseDelimiters(string value)
