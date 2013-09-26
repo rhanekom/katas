@@ -3,14 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text.RegularExpressions;
 
     public class Calculator
     {
         #region Globals
 
-        private readonly Regex formatRegex = new Regex("(//(?<delimiter>.*)\n)?(?<numbers>[\\s\\S]*)$", RegexOptions.Compiled);
-        private readonly Regex delimiterRegex = new Regex("\\[(?<delimiter>[^\\]]*)\\]", RegexOptions.Compiled);
         private readonly IUserInterface userInterface;
 
         #endregion
@@ -39,24 +36,14 @@
 
         private int GetResult(string numbers)
         {
-            string[] delimiters;
-            var cleanNumbers = MatchNumbers(numbers, out delimiters);
-            var result = Add(cleanNumbers, delimiters);
+            IList<int> parsedNumbers = new ExpressionParser().Parse(numbers); 
+            var result = Sum(parsedNumbers);
             return result;
         }
 
-        private void WriteResult(int result)
+        private int Sum(IList<int> numbers)
         {
-            userInterface.Write("The result is " + result);
-        }
-
-        private int Add(string cleanNumbers, string[] delimiters)
-        {
-            string[] split = cleanNumbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-            var numbers = split.Select(int.Parse).Where(x => x <= 1000).ToList();
-
             AssertNoNegativeNumbers(numbers);
-
             return numbers.Sum();
         }
 
@@ -70,53 +57,9 @@
             }
         }
 
-        private string MatchNumbers(string numbers, out string[] delimiters)
+        private void WriteResult(int result)
         {
-            var match = formatRegex.Match(numbers);
-
-            var cleanNumbers = GetNumberValue(match);
-            delimiters = GetDelimiterValue(match);
-            
-            return cleanNumbers;
-        }
-
-        private string[] GetDelimiterValue(Match match)
-        {
-            var delimiterMatch = match.Groups["delimiter"];
-
-            if (delimiterMatch.Success)
-            {
-                return ParseDelimiters(delimiterMatch.Value);
-            }
-
-            return new[] { ",", "\n" };
-        }
-
-        private string[] ParseDelimiters(string value)
-        {
-            Match match = delimiterRegex.Match(value);
-            return !match.Success ? new[] { value } : ParseDelimiters(match);
-        }
-
-        private static string[] ParseDelimiters(Match match)
-        {
-            var delimiters = new List<string>();
-
-            do
-            {
-                delimiters.Add(match.Groups["delimiter"].Value);
-                match = match.NextMatch();
-            } 
-            while (match.Success);
-
-            return delimiters.ToArray();
-        }
-
-        private string GetNumberValue(Match match)
-        {
-            var numberMatch = match.Groups["numbers"];
-            string cleanNumbers = numberMatch.Value;
-            return cleanNumbers;
+            userInterface.Write("The result is " + result);
         }
 
         #endregion

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Calculator.cs" />
     <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="ExpressionParser.cs" />
     <Compile Include="IUserInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
