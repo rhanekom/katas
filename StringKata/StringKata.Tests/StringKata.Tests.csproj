@@ -48,6 +48,7 @@
     <Compile Include="Console\ProgramTests.cs" />
     <Compile Include="Core\CalculatorTests.cs" />
     <Compile Include="Core\ConsoleOutputTests.cs" />
+    <Compile Include="Extensions\MoqExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 {
     public interface IUserInterface
     {
-        string GetNextUserInput();
+        bool GetNextUserInput(out string input);
 
         void Write(string output);
     }

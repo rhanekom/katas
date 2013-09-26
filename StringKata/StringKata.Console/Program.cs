@@ -43,18 +43,18 @@
 
         private static void CalculateNextValue(Calculator calculator)
         {
-            while (true)
+            string input;
+
+            while (GetUserInput(out input))
             {
-                UI.Write("Another input please");
-                string s = UI.GetNextUserInput();
-
-                if (string.IsNullOrWhiteSpace(s))
-                {
-                    break;
-                }
-
-                calculator.Add(s);
+                calculator.Add(input);
             }
+        }
+
+        private static bool GetUserInput(out string input)
+        {
+            UI.Write("Another input please");
+            return UI.GetNextUserInput(out input);
         }
 
         private static void PrintUsage()

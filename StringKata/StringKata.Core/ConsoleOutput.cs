@@ -4,9 +4,10 @@
 
     public class ConsoleUserInterface : IUserInterface
     {
-        public string GetNextUserInput()
+        public bool GetNextUserInput(out string input)
         {
-            return Console.ReadLine();
+            input = Console.ReadLine();
+            return !string.IsNullOrEmpty(input);
         }
 
         public void Write(string output)

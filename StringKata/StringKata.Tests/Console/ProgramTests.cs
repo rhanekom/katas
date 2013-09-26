@@ -1,5 +1,6 @@
 ﻿namespace StringKata.Tests.Console
 {
+    using Extensions;
     using Moq;
     using NUnit.Framework;
     using StringKata.Console;
@@ -46,14 +47,28 @@
         }
 
         [Test]
-        public void Main_Asks_For_Results_Until_No_More_Input()
+        public void Main_Quits_If_No_More_Input()
         {
-            ui.Setup(x => x.Write("Another input please"));
-            ui.Setup(x => x.GetNextUserInput()).Returns(string.Empty);
+            string returnValue;
+            
+            ui.Setup(x => x.GetNextUserInput(out returnValue)).Returns(false);
 
             Program.Main(new[] { "1,2,3" });
 
-            ui.VerifyAll();
+            ui.Verify(x => x.Write("Another input please"), Times.Once);
+        }
+
+        [Test]
+        public void Main_Asks_Again_If_More_Input_Received()
+        {
+            // ReSharper disable RedundantAssignment
+            string returnValue = "4,5,6";
+            // ReSharper restore RedundantAssignment
+            ui.Setup(x => x.GetNextUserInput(out returnValue)).ReturnsInOrder(new[] { true, true, false });
+
+            Program.Main(new[] { "1,2,3" });
+
+            ui.Verify(x => x.Write("Another input please"), Times.Exactly(3));
         }
 
         #endregion
