@@ -60,7 +60,7 @@
     <Compile Include="TennisGame1.cs" />
     <Compile Include="TennisGame2.cs" />
     <Compile Include="TennisGame3.cs" />
-    <Compile Include="TennisGame.cs" />
+    <Compile Include="ITennisGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
