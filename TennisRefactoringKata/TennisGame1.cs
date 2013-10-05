@@ -37,79 +37,57 @@ namespace Tennis
 
         public string GetScore()
         {
-            String score = "";
-            int tempScore;
-            
             if (player1.Score == player2.Score)
             {
                 switch (player1.Score)
                 {
                     case 0:
-                        score = "Love-All";
-                        break;
+                        return "Love-All";
                     case 1:
-                        score = "Fifteen-All";
-                        break;
+                        return "Fifteen-All";
                     case 2:
-                        score = "Thirty-All";
-                        break;
+                        return "Thirty-All";
                     default:
-                        score = "Deuce";
-                        break;
+                        return "Deuce";
                 }
             }
-            else if (player1.Score >= 4 || player2.Score >= 4)
+            
+            if (player1.Score >= 4 || player2.Score >= 4)
             {
                 int minusResult = player1.Score - player2.Score;
                 switch (minusResult)
                 {
                     case 1:
-                        score = "Advantage player1";
-                        break;
+                        return "Advantage player1";
                     case -1:
-                        score = "Advantage player2";
-                        break;
+                        return "Advantage player2";
                     default:
-                        if (minusResult >= 2)
-                        {
-                            score = "Win for player1";
-                        }
-                        else
-                        {
-                            score = "Win for player2";
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                for (int i = 1; i < 3; i++)
-                {
-                    if (i == 1) tempScore = player1.Score;
-                    else
-                    {
-                        score += "-";
-                        tempScore = player2.Score;
-                    }
-                    switch (tempScore)
-                    {
-                        case 0:
-                            score += "Love";
-                            break;
-                        case 1:
-                            score += "Fifteen";
-                            break;
-                        case 2:
-                            score += "Thirty";
-                            break;
-                        case 3:
-                            score += "Forty";
-                            break;
-                    }
+                        return minusResult >= 2 ? "Win for player1" : "Win for player2";
                 }
             }
 
-            return score;
+            return GetScoreName(player1.Score) + "-" + GetScoreName(player2.Score);
+        }
+
+        #endregion
+
+        #region Private Members
+
+        private string GetScoreName(int score)
+        {
+            switch (score)
+            {
+                case 0:
+                    return "Love";
+                case 1:
+                    return "Fifteen";
+                case 2:
+                    return "Thirty";
+                case 3:
+                    return "Forty";
+            }
+   
+            throw new ArgumentException("Invalid score " + score);
         }
 
         #endregion
