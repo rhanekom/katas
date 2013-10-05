@@ -4,32 +4,45 @@ namespace Tennis
 
     public class TennisGame1 : ITennisGame
     {
-        private int m_score1;
-        private int m_score2;
-        private string player1Name;
-        private string player2Name;
+        #region Globals
+
+        private readonly Player player1;
+        private readonly Player player2;
+
+        #endregion
+
+        #region Construction
 
         public TennisGame1(string player1Name, string player2Name)
         {
-            this.player1Name = player1Name;
-            this.player2Name = player2Name;
+            player1 = new Player(player1Name);
+            player2 = new Player(player2Name);
         }
+
+        #endregion
+
+        #region ITennisGame Members
 
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                m_score1 += 1;
+            {
+                player1.WonPoint();
+            }
             else
-                m_score2 += 1;
+            {
+                player2.WonPoint();
+            }
         }
 
         public string GetScore()
         {
             String score = "";
-            int tempScore = 0;
-            if (m_score1 == m_score2)
+            int tempScore;
+            
+            if (player1.Score == player2.Score)
             {
-                switch (m_score1)
+                switch (player1.Score)
                 {
                     case 0:
                         score = "Love-All";
@@ -45,23 +58,38 @@ namespace Tennis
                         break;
                 }
             }
-            else if (m_score1 >= 4 || m_score2 >= 4)
+            else if (player1.Score >= 4 || player2.Score >= 4)
             {
-                int minusResult = m_score1 - m_score2;
-                if (minusResult == 1) score = "Advantage player1";
-                else if (minusResult == -1) score = "Advantage player2";
-                else if (minusResult >= 2) score = "Win for player1";
-                else score = "Win for player2";
+                int minusResult = player1.Score - player2.Score;
+                switch (minusResult)
+                {
+                    case 1:
+                        score = "Advantage player1";
+                        break;
+                    case -1:
+                        score = "Advantage player2";
+                        break;
+                    default:
+                        if (minusResult >= 2)
+                        {
+                            score = "Win for player1";
+                        }
+                        else
+                        {
+                            score = "Win for player2";
+                        }
+                        break;
+                }
             }
             else
             {
                 for (int i = 1; i < 3; i++)
                 {
-                    if (i == 1) tempScore = m_score1;
+                    if (i == 1) tempScore = player1.Score;
                     else
                     {
                         score += "-";
-                        tempScore = m_score2;
+                        tempScore = player2.Score;
                     }
                     switch (tempScore)
                     {
@@ -80,7 +108,10 @@ namespace Tennis
                     }
                 }
             }
+
             return score;
         }
+
+        #endregion
     }
 }
