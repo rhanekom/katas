@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Tennis
 {
-  class TennisGame1 : TennisGame
+  public class TennisGame1 : TennisGame
   {
     private int m_score1 = 0;
     private int m_score2 = 0;

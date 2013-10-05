@@ -1,5 +1,3 @@
-using System;
-
 namespace Tennis
 {
   public interface TennisGame
