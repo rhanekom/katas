@@ -49,7 +49,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TennisRefactoringKata\Tennis.csproj">
+    <ProjectReference Include="..\Tennis\Tennis.csproj">
       <Project>{F059601E-EF1A-4148-A2A4-1E1697CC69EA}</Project>
       <Name>Tennis</Name>
     </ProjectReference>
