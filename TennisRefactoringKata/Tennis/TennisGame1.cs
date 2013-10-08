@@ -1,7 +1,5 @@
 namespace Tennis
 {
-    using System;
-
     public class TennisGame1 : ITennisGame
     {
         #region Globals
@@ -39,22 +37,20 @@ namespace Tennis
         {
             if (player1.Score == player2.Score)
             {
-                switch (player1.Score)
+                switch (player1.Score.Value)
                 {
                     case 0:
-                        return "Love-All";
                     case 1:
-                        return "Fifteen-All";
                     case 2:
-                        return "Thirty-All";
+                        return player1.Score + "-All";
                     default:
                         return "Deuce";
                 }
             }
             
-            if (player1.Score >= 4 || player2.Score >= 4)
+            if (player1.Score.Value >= 4 || player2.Score.Value >= 4)
             {
-                int minusResult = player1.Score - player2.Score;
+                int minusResult = player1.Score.Value - player2.Score.Value;
                 switch (minusResult)
                 {
                     case 1:
@@ -66,28 +62,7 @@ namespace Tennis
                 }
             }
 
-            return GetScoreName(player1.Score) + "-" + GetScoreName(player2.Score);
-        }
-
-        #endregion
-
-        #region Private Members
-
-        private string GetScoreName(int score)
-        {
-            switch (score)
-            {
-                case 0:
-                    return "Love";
-                case 1:
-                    return "Fifteen";
-                case 2:
-                    return "Thirty";
-                case 3:
-                    return "Forty";
-            }
-   
-            throw new ArgumentException("Invalid score " + score);
+            return string.Format("{0}-{1}", player1.Score, player2.Score);
         }
 
         #endregion

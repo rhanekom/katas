@@ -7,6 +7,7 @@
         public Player(string name)
         {
             Name = name;
+            Score = new Score();
         }
 
         #endregion
@@ -15,11 +16,11 @@
 
         public string Name { get; private set; }
 
-        public int Score { get; private set; }
+        public Score Score { get; private set; }
 
         public void WonPoint()
         {
-            Score += 1;
+            Score.Increase();
         }
 
         #endregion
