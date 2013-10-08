@@ -1,11 +1,14 @@
 namespace Tennis
 {
+    using System.Linq;
+
     public class TennisGame1 : ITennisGame
     {
         #region Globals
 
         private readonly Player player1;
         private readonly Player player2;
+        private readonly MatchScore score;
 
         #endregion
 
@@ -15,6 +18,7 @@ namespace Tennis
         {
             player1 = new Player(player1Name);
             player2 = new Player(player2Name);
+            score = new MatchScore(player1.Score, player2.Score);
         }
 
         #endregion
@@ -23,46 +27,21 @@ namespace Tennis
 
         public void WonPoint(string playerName)
         {
-            if (playerName == "player1")
-            {
-                player1.WonPoint();
-            }
-            else
-            {
-                player2.WonPoint();
-            }
+            GetPlayer(playerName).WonPoint();
         }
 
         public string GetScore()
         {
-            if (player1.Score == player2.Score)
-            {
-                switch (player1.Score.Value)
-                {
-                    case 0:
-                    case 1:
-                    case 2:
-                        return player1.Score + "-All";
-                    default:
-                        return "Deuce";
-                }
-            }
-            
-            if (player1.Score.Value >= 4 || player2.Score.Value >= 4)
-            {
-                int minusResult = player1.Score.Value - player2.Score.Value;
-                switch (minusResult)
-                {
-                    case 1:
-                        return "Advantage player1";
-                    case -1:
-                        return "Advantage player2";
-                    default:
-                        return minusResult >= 2 ? "Win for player1" : "Win for player2";
-                }
-            }
+            return score.ToString();
+        }
 
-            return string.Format("{0}-{1}", player1.Score, player2.Score);
+        #endregion
+
+        #region Private Members
+
+        private Player GetPlayer(string playerName)
+        {
+            return (new[] { player1, player2 }).SingleOrDefault(x => x.Name == playerName);
         }
 
         #endregion

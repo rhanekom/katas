@@ -2,12 +2,18 @@
 {
     public class Score
     {
+        #region Public Members
+
         public int Value { get; private set; }
 
         public void Increase()
         {
             Value += 1;
         }
+
+        #endregion
+
+        #region Object Members
 
         public override string ToString()
         {
@@ -25,5 +31,7 @@
                     return "Unknown";
             }
         }
+
+        #endregion
     }
 }

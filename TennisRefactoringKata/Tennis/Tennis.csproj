@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="MatchScore.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="TennisGame1.cs" />
