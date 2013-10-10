@@ -45,9 +45,10 @@
                 }
             }
 
-            if (score1.Value >= 4 || score2.Value >= 4)
+            if (IsMatchAdvantageOrWin())
             {
                 int minusResult = score1.Value - score2.Value;
+
                 switch (minusResult)
                 {
                     case 1:
@@ -62,6 +63,10 @@
             return string.Format("{0}-{1}", score1, score2);
         }
 
+        private bool IsMatchAdvantageOrWin()
+        {
+            return score1.Value >= 4 || score2.Value >= 4;
+        }
 
         #endregion
     }
