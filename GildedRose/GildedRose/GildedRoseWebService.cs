@@ -4,13 +4,19 @@ using System.Threading;
 
 namespace GildedRose
 {
-    public class GildedRoseWebService
+    public class GildedRoseWebService : IGildedRoseWebService
     {
-        private static List<Item> _inventory; 
+        #region Globals
+
+        private static List<Item> inventory;
+
+        #endregion
+
+        #region Construction
 
         static GildedRoseWebService()
         {
-            _inventory = new List<Item>{
+            inventory = new List<Item>{
                                            new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
                                            new Item {Name = "Aged Brie", SellIn = 2, Quality = 0},
                                            new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
@@ -39,18 +45,24 @@ namespace GildedRose
 
         }
 
-        public static  List<Item> GetInventory(string uri)
+        #endregion
+
+        #region Public Members
+
+        public List<Item> GetInventory(string uri)
         {
             //expensive call to actual webservice goes here
             Thread.Sleep(50);
-            return _inventory;
+            return inventory;
         }
 
-        public static void SaveInventory(string uri, List<Item> items)
+        public void SaveInventory(string uri, List<Item> items)
         {
             //another call to webservice
-            _inventory = items;
+            inventory = items;
             Console.WriteLine("Saved inventory at {0:dd/MM/yyyy}", DateTime.Now);
         }
+
+        #endregion
     }
 }

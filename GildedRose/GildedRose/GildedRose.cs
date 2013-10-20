@@ -4,10 +4,27 @@ namespace GildedRose
 
     public class GildedRose
     {
+        #region Globals
+
+        private readonly IGildedRoseWebService webService;
+ 
+        #endregion
+
+        #region Construction
+
+        public GildedRose(IGildedRoseWebService webService)
+        {
+            this.webService = webService;
+        }
+
+        #endregion
+
+        #region Public Members
+
         public void UpdateQuality()
         {
             const string uri = "http://www.gildrose.co.za/api/inventory";
-            var items = GildedRoseWebService.GetInventory(uri);
+            var items = webService.GetInventory(uri);
             
             foreach (Item item in items)
             {
@@ -35,6 +52,7 @@ namespace GildedRose
                                 {
                                     item.Quality = item.Quality + 1;
                                 }
+                  
                             }
 
                             if (item.SellIn < 5)
@@ -82,12 +100,12 @@ namespace GildedRose
                 }
             }
 
-            GildedRoseWebService.SaveInventory(uri, items);
+            webService.SaveInventory(uri, items);
         }
 
         public void PrintReport()
         {
-            var items = GildedRoseWebService.GetInventory("http://www.gildedrose.co.za/api/inventory/");
+            var items = webService.GetInventory("http://www.gildedrose.co.za/api/inventory/");
             Console.WriteLine("name, sellIn, quality");
             foreach (Item item in items)
             {
@@ -96,15 +114,7 @@ namespace GildedRose
 
             Console.WriteLine("");
         }
-    }
 
-
-    public class Item
-    {
-        public string Name { get; set; }
-
-        public int SellIn { get; set; }
-
-        public int Quality { get; set; }
+        #endregion
     }
 }

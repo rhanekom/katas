@@ -5,7 +5,7 @@
 		public static void Main(string[] args)
 		{
 			System.Console.WriteLine("OMGHAI!");
-			var app = new GildedRose();
+			var app = new GildedRose(new GildedRoseWebService());
 
 			for (var i = 0; i < 31; i++)
 			{
@@ -13,7 +13,6 @@
 				app.PrintReport();
 			    app.UpdateQuality();
 			}
-
 		}
 	}
 }
