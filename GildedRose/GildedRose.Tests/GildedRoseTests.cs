@@ -28,11 +28,9 @@ namespace GildedRose.Tests
 
         #endregion
 
-
         #region Tests
 
         [Test]
-        [Ignore("Test coverage with new tests")]
         public void GoldenMasterTest()
         {
             var writer = new StringWriter();
@@ -40,7 +38,7 @@ namespace GildedRose.Tests
             
             Program.Main(null);
 
-            Assert.That(writer.ToString(), Is.EqualTo(File.ReadAllText("output.txt")));
+            Assert.That(writer.ToString(), Is.EqualTo(File.ReadAllText("..\\..\\output.txt")));
         }
 
         [Test]
@@ -78,13 +76,13 @@ namespace GildedRose.Tests
         [Test]
         public void Sulfaras_Is_A_Legendary_Item()
         {
-            Assert.That(SpecialProducts.IsLegendaryProduct(SpecialProducts.Sulfuras));
+            Assert.That(new Item { Name = SpecialProducts.Sulfuras }.IsLegendaryProduct);
         }
 
         [Test]
         public void Aged_Brie_Is_Not_A_Legendary_Item()
         {
-            Assert.IsFalse(SpecialProducts.IsLegendaryProduct(SpecialProducts.AgedBrie));
+            Assert.That(!new Item { Name = SpecialProducts.AgedBrie }.IsLegendaryProduct);
         }
 
         [Test]
@@ -115,6 +113,12 @@ namespace GildedRose.Tests
         public void BackStage_Passes_Quality_Drop_Down_to_Zero()
         {
            ExpectVariableChange(0, 6, -1, 0, SpecialProducts.BackstagePasses);
+        }
+
+        [Test]
+        public void Conjured_Items_Degrade_In_Quality_Twice_As_Fast_As_Normal_Items()
+        {
+            ExpectVariableChange(4, 6, 3, 4, SpecialProducts.Conjured);
         }
 
         #endregion

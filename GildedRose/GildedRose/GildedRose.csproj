@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GildedRose</RootNamespace>
     <AssemblyName>GildedRose</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -46,8 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgingStrategyFactory.cs" />
+    <Compile Include="BackStagePassAgingStrategy.cs" />
+    <Compile Include="ConjuredItemsAgingStrategy.cs" />
+    <Compile Include="DefaultAgingStrategy.cs" />
+    <Compile Include="GetsBetterWithAgeAgingStrategy.cs" />
     <Compile Include="GildedRose.cs" />
     <Compile Include="GildedRoseWebService.cs" />
+    <Compile Include="IAgingStrategy.cs" />
     <Compile Include="IGildedRoseWebService.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Program.cs" />

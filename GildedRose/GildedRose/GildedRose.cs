@@ -24,79 +24,12 @@ namespace GildedRose
         public void UpdateQuality()
         {
             var items = webService.GetInventory();
+            var agingStrategy = new AgingStrategyFactory();
             
             foreach (Item item in items)
             {
-                if (item.Name != SpecialProducts.AgedBrie && item.Name != SpecialProducts.BackstagePasses)
-                {
-                    if (item.Quality > 0)
-                    {
-                        if (item.Name != SpecialProducts.Sulfuras)
-                        {
-                            item.Quality = item.Quality - 1;
-                        }
-                    }
-                }
-                else
-                {
-                    if (item.Quality < 50)
-                    {
-                        item.Quality = item.Quality + 1;
-
-                        if (item.Name == SpecialProducts.BackstagePasses)
-                        {
-                            if (item.SellIn < 11)
-                            {
-                                if (item.Quality < 50)
-                                {
-                                    item.Quality = item.Quality + 1;
-                                }
-                  
-                            }
-
-                            if (item.SellIn <= 5)
-                            {
-                                if (item.Quality < 50)
-                                {
-                                    item.Quality = item.Quality + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (item.Name != SpecialProducts.Sulfuras)
-                {
-                    item.SellIn = item.SellIn - 1;
-                }
-
-                if (item.SellIn < 0)
-                {
-                    if (item.Name != SpecialProducts.AgedBrie)
-                    {
-                        if (item.Name != SpecialProducts.BackstagePasses)
-                        {
-                            if (item.Quality > 0)
-                            {
-                                if (item.Name != SpecialProducts.Sulfuras)
-                                {
-                                    item.Quality = item.Quality - 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            item.Quality = item.Quality - item.Quality;
-                        }
-                    }
-                    else
-                    {
-                        if (item.Quality < 50)
-                        {
-                            item.Quality = item.Quality + 1;
-                        }
-                    }
-                }
+                IAgingStrategy strategy = agingStrategy.Create(item);
+                strategy.Apply(item);
             }
 
             webService.SaveInventory(items);
@@ -108,10 +41,10 @@ namespace GildedRose
             Console.WriteLine("name, sellIn, quality");
             foreach (Item item in items)
             {
-                Console.WriteLine(item.Name + ", " + item.SellIn + ", " + item.Quality);
+                Console.WriteLine("{0}, {1}, {2}", item.Name, item.SellIn, item.Quality);
             }
 
-            Console.WriteLine("");
+            Console.WriteLine();
         }
 
         #endregion
