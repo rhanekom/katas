@@ -27,11 +27,11 @@ namespace GildedRose
             
             foreach (Item item in items)
             {
-                if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                if (item.Name != SpecialProducts.AgedBrie && item.Name != SpecialProducts.BackstagePasses)
                 {
                     if (item.Quality > 0)
                     {
-                        if (item.Name != "Sulfuras, Hand of Ragnaros")
+                        if (item.Name != SpecialProducts.Sulfuras)
                         {
                             item.Quality = item.Quality - 1;
                         }
@@ -43,7 +43,7 @@ namespace GildedRose
                     {
                         item.Quality = item.Quality + 1;
 
-                        if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                        if (item.Name == SpecialProducts.BackstagePasses)
                         {
                             if (item.SellIn < 11)
                             {
@@ -54,7 +54,7 @@ namespace GildedRose
                   
                             }
 
-                            if (item.SellIn < 5)
+                            if (item.SellIn <= 5)
                             {
                                 if (item.Quality < 50)
                                 {
@@ -65,20 +65,20 @@ namespace GildedRose
                     }
                 }
 
-                if (item.Name != "Sulfuras, Hand of Ragnaros")
+                if (item.Name != SpecialProducts.Sulfuras)
                 {
                     item.SellIn = item.SellIn - 1;
                 }
 
                 if (item.SellIn < 0)
                 {
-                    if (item.Name != "Aged Brie")
+                    if (item.Name != SpecialProducts.AgedBrie)
                     {
-                        if (item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                        if (item.Name != SpecialProducts.BackstagePasses)
                         {
                             if (item.Quality > 0)
                             {
-                                if (item.Name != "Sulfuras, Hand of Ragnaros")
+                                if (item.Name != SpecialProducts.Sulfuras)
                                 {
                                     item.Quality = item.Quality - 1;
                                 }
