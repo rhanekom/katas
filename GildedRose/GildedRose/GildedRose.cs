@@ -7,7 +7,7 @@ namespace GildedRose
         #region Globals
 
         private readonly IGildedRoseWebService webService;
- 
+
         #endregion
 
         #region Construction
@@ -23,8 +23,7 @@ namespace GildedRose
 
         public void UpdateQuality()
         {
-            const string uri = "http://www.gildrose.co.za/api/inventory";
-            var items = webService.GetInventory(uri);
+            var items = webService.GetInventory();
             
             foreach (Item item in items)
             {
@@ -100,12 +99,12 @@ namespace GildedRose
                 }
             }
 
-            webService.SaveInventory(uri, items);
+            webService.SaveInventory(items);
         }
 
         public void PrintReport()
         {
-            var items = webService.GetInventory("http://www.gildedrose.co.za/api/inventory/");
+            var items = webService.GetInventory();
             Console.WriteLine("name, sellIn, quality");
             foreach (Item item in items)
             {

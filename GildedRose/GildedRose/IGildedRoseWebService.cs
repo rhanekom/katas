@@ -4,7 +4,7 @@ namespace GildedRose
 {
     public interface IGildedRoseWebService
     {
-        List<Item> GetInventory(string uri);
-        void SaveInventory(string uri, List<Item> items);
+        List<Item> GetInventory();
+        void SaveInventory(List<Item> items);
     }
 }

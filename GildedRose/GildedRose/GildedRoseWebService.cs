@@ -49,14 +49,14 @@ namespace GildedRose
 
         #region Public Members
 
-        public List<Item> GetInventory(string uri)
+        public List<Item> GetInventory()
         {
             //expensive call to actual webservice goes here
             Thread.Sleep(50);
             return inventory;
         }
 
-        public void SaveInventory(string uri, List<Item> items)
+        public void SaveInventory(List<Item> items)
         {
             //another call to webservice
             inventory = items;
