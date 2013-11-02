@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace GameOfLife
 {
@@ -8,21 +9,31 @@ namespace GameOfLife
     {
         #region Globals
 
-        private static Cell[] world = new Cell[22 * 30];
+        private const int Width = 22;
+        private const int Height = 30;
+        private const int TotalItems = Width * Height;
+           
+        private Cell[] world = new Cell[TotalItems];
 
         #endregion
 
         #region Public Members
 
-        public static void Clear()
+        public void Clear()
         {
             Initialise();
         }
 
-        public static List<Cell> ListOfNewCells()
+        public Cell this[int x, int y]
+        {
+            get { return world[Index(x, y)]; }
+            set { world[Index(x, y)] = value; }
+        }
+
+        public List<Cell> ListOfNewCells()
         {
             var newCellList = new List<Cell>();
-            for (int i = 0; i < 22 * 30; i++)
+            for (int i = 0; i < TotalItems; i++)
             {
                 Cell c = world[i];
                 if (c == null)
@@ -45,12 +56,12 @@ namespace GameOfLife
             return newCellList;
         }
 
-        public static void Add(Cell cell)
+        public void Add(Cell cell)
         {
             world[cell.X + cell.Y * 22] = cell;
         }
 
-        public static void DisplayOutput()
+        public void DisplayOutput()
         {
             for (int i = 0; i < 22; i++)
             {
@@ -69,12 +80,12 @@ namespace GameOfLife
             }
         }
 
-        public static Cell[] GetWorld()
+        public Cell[] GetWorld()
         {
             return world;
         }
 
-        public static void SetWorld(Cell[] newWorld)
+        public void SetWorld(Cell[] newWorld)
         {
             world = newWorld;
         }
@@ -84,11 +95,11 @@ namespace GameOfLife
             return !(neighbours > 3 || neighbours < 2);
         }
 
-        public static bool IsCellAlive(Cell cell)
+        public bool IsCellAlive(Cell cell)
         {
             int neighbours = 0;
 
-            for (int i = 0; i < 22 * 30; i++)
+            for (int i = 0; i < TotalItems; i++)
             {
                 Cell neighbour = GetWorld()[i];
                 if (neighbour != null && IsNeighbour(neighbour, cell))
@@ -100,10 +111,10 @@ namespace GameOfLife
             return IsCellAlive(neighbours);
         }
 
-        public static int GetNumberOfNeighbours(Cell cell)
+        public int GetNumberOfNeighbours(Cell cell)
         {
             int neighbours = 0;
-            for (int i = 0; i < 22 * 30; i++)
+            for (int i = 0; i < TotalItems; i++)
             {
                 Cell neighbour = GetWorld()[i];
                 if (neighbour != null && IsNeighbour(neighbour, cell))
@@ -126,10 +137,10 @@ namespace GameOfLife
         }
 
 
-        public static bool IsNotPresentInWorld(Cell needle)
+        public bool IsNotPresentInWorld(Cell needle)
         {
             bool result = true;
-            for (int i = 0; i < 22 * 30; i++)
+            for (int i = 0; i < TotalItems; i++)
             {
                 Cell cell = GetWorld()[i];
                 if (cell != null && cell.X == needle.X && cell.Y == needle.Y)
@@ -167,9 +178,15 @@ namespace GameOfLife
 
         #region Private Members
 
-        private static void Initialise()
+        private void Initialise()
         {
-            world = new Cell[22 * 30];
+            world = new Cell[TotalItems];
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private int Index(int x, int y)
+        {
+            return x + y * Width;
         }
 
         #endregion

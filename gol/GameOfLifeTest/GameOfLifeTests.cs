@@ -9,11 +9,21 @@ namespace GameOfLifeTest
     [TestFixture]
     public class GameOfLifeTests
     {
+        #region Globals
+
+        private World world;
+
+        #endregion
+
+        #region Setup
+
         [SetUp]
         public void Setup()
         {
-            World.Clear();
+            world = new World();
         }
+
+        #endregion
 
         [Test]
         public void GoldenMasterTest()
@@ -72,48 +82,48 @@ namespace GameOfLifeTest
         public void TestThatCellKnowsItsNeighbours()
         {
             var cell = new Cell(3, 2);
-            World.Add(new Cell(1, 1));
-            World.Add(new Cell(1, 2));
-            World.Add(new Cell(1, 3));
-            World.Add(new Cell(2, 1));
-            World.Add(new Cell(2, 3));
-            World.Add(new Cell(3, 1));
-            World.Add(new Cell(3, 2));
-            World.Add(new Cell(3, 3));
-            World.Add(new Cell(2, 0));
-            World.Add(new Cell(2, 2));
-            World.Add(new Cell(2, 4));
-            World.Add(new Cell(3, 0));
-            World.Add(new Cell(3, 4));
-            World.Add(new Cell(4, 1));
-            World.Add(new Cell(4, 2));
-            World.Add(new Cell(4, 3));
+            world.Add(new Cell(1, 1));
+            world.Add(new Cell(1, 2));
+            world.Add(new Cell(1, 3));
+            world.Add(new Cell(2, 1));
+            world.Add(new Cell(2, 3));
+            world.Add(new Cell(3, 1));
+            world.Add(new Cell(3, 2));
+            world.Add(new Cell(3, 3));
+            world.Add(new Cell(2, 0));
+            world.Add(new Cell(2, 2));
+            world.Add(new Cell(2, 4));
+            world.Add(new Cell(3, 0));
+            world.Add(new Cell(3, 4));
+            world.Add(new Cell(4, 1));
+            world.Add(new Cell(4, 2));
+            world.Add(new Cell(4, 3));
 
-            int actualNumberOfNeighbours = World.GetNumberOfNeighbours(cell);
+            int actualNumberOfNeighbours = world.GetNumberOfNeighbours(cell);
             Assert.AreEqual(8, actualNumberOfNeighbours);
         }
 
         [Test]
         public void TestThatDeadCellsBecomeAlive()
         {
-            World.Add(new Cell(1, 1));
-            World.Add(new Cell(1, 2));
-            World.Add(new Cell(1, 3));
-            World.Add(new Cell(2, 1));
-            World.Add(new Cell(2, 3));
-            World.Add(new Cell(3, 1));
-            World.Add(new Cell(3, 2));
-            World.Add(new Cell(3, 3));
-            World.Add(new Cell(2, 0));
-            World.Add(new Cell(2, 2));
-            World.Add(new Cell(2, 4));
-            World.Add(new Cell(3, 0));
-            World.Add(new Cell(3, 4));
-            World.Add(new Cell(4, 1));
-            World.Add(new Cell(4, 2));
-            World.Add(new Cell(4, 3));
+            world.Add(new Cell(1, 1));
+            world.Add(new Cell(1, 2));
+            world.Add(new Cell(1, 3));
+            world.Add(new Cell(2, 1));
+            world.Add(new Cell(2, 3));
+            world.Add(new Cell(3, 1));
+            world.Add(new Cell(3, 2));
+            world.Add(new Cell(3, 3));
+            world.Add(new Cell(2, 0));
+            world.Add(new Cell(2, 2));
+            world.Add(new Cell(2, 4));
+            world.Add(new Cell(3, 0));
+            world.Add(new Cell(3, 4));
+            world.Add(new Cell(4, 1));
+            world.Add(new Cell(4, 2));
+            world.Add(new Cell(4, 3));
 
-            List<Cell> newCells = World.ListOfNewCells();
+            List<Cell> newCells = world.ListOfNewCells();
             
             Assert.AreEqual(6, newCells.Count);
         }
