@@ -9,8 +9,6 @@ namespace GameOfLife
         public int X { get; set; }
         public int Y { get; set; }
 
-        private static Cell[] _world = new Cell[22 * 30];
-
         public Cell(int x, int y)
         {
             X = x;
@@ -22,22 +20,13 @@ namespace GameOfLife
             return !(neighbours > 3 || neighbours < 2);
         }
 
-        public static void Clear()
-        {
-            Initialise();
-        }
-
-        private static void Initialise()
-        {
-            _world = new Cell[22 * 30];
-        }
-
+        
         public bool IsCellAlive()
         {
             int neighbours = 0;
             for (int i = 0; i < 22*30; i++)
             {
-                Cell c = _world[i];
+                Cell c = World.GetWorld()[i];
                 if(c != null && IsNeighbour(c))
                 {
                     neighbours++;
@@ -52,7 +41,7 @@ namespace GameOfLife
             int neighbours = 0;
             for (int i = 0; i < 22*30; i++)
             {
-                Cell c = _world[i];
+                Cell c = World.GetWorld()[i];
                 if (c != null && IsNeighbour(c))
                 {
                     neighbours++;
@@ -72,38 +61,13 @@ namespace GameOfLife
             return result;
         }
 
-        public static List<Cell> ListOfNewCells()
-        {
-            List<Cell> newCellList = new List<Cell>();
-            for (int i = 0; i < 22*30; i++)
-            {
-                Cell c = _world[i];
-                if(c == null)
-                {
-                    continue;
-                }
-                List<Cell> neighbourList = c.GetNeighbours();
-                foreach (Cell neighbour in neighbourList)
-                {
-                    int numberOfNeighbours = neighbour.DetermineNumberOfNeighbours();
-                    bool isNotPresentInWorld = neighbour.IsNotPresentInWorld();
-                    bool isNotPresentInList = neighbour.IsNotPresentInList(newCellList);
 
-                    if (numberOfNeighbours == 3 && isNotPresentInWorld && isNotPresentInList)
-                    {
-                        newCellList.Add(neighbour);
-                    }
-                }                
-            }
-            return newCellList;
-        }
-
-        private bool IsNotPresentInWorld()
+        public bool IsNotPresentInWorld()
         {
             bool result = true;
             for (int i = 0; i < 22*30; i++)
             {
-                Cell c = _world[i];
+                Cell c = World.GetWorld()[i];
                 if(c != null && c.X == X && c.Y == Y)
                 {
                     result = false;
@@ -132,38 +96,6 @@ namespace GameOfLife
                 }
             }
             return neighbourList;
-        }
-
-        public static void Add(Cell cell)
-        {
-            _world[cell.X + cell.Y * 22] = cell;
-        }
-
-        public static void DisplayOutput()
-        {
-            for (int i = 0; i < 22; i++)
-            {
-                for (int j = 0; j < 30; j++)
-                {
-                    string printChar = " ";
-                    if (_world[i + j * 22] != null)
-                    {
-                        printChar = "*";
-                    }
-                    Console.Write(printChar);
-                }
-                Console.WriteLine();
-            }
-        }
-
-        public static Cell[] GetWorld()
-        {
-            return _world;
-        }
-
-        public static void SetWorld(Cell[] world)
-        {
-            _world = world;
         }
     }
 }
