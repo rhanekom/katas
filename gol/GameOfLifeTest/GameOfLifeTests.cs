@@ -1,21 +1,21 @@
 ﻿using System;
 using System.IO;
 using GameOfLife;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace GameOfLifeTest
 {
-    [TestClass]
+    [TestFixture]
     public class GameOfLifeTests
     {
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             Cell.Clear();
         }
 
-        [TestMethod]
+        [Test]
         public void GoldenMasterTest()
         {
             string expected = File.ReadAllText("..\\..\\output.txt");
@@ -28,7 +28,7 @@ namespace GameOfLifeTest
             Assert.AreEqual(expected, writer.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void TestThatCellDiesWithOneNeighbour()
         {
             const int neighbours = 1;
@@ -39,7 +39,7 @@ namespace GameOfLifeTest
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
-        [TestMethod]
+        [Test]
         public void TestThatCellDiesWithFourNeighbours()
         {
             const int neighbours = 4;
@@ -50,7 +50,7 @@ namespace GameOfLifeTest
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
-        [TestMethod]
+        [Test]
         public void TestThatCellStaysAliveWithTwoNeighbours()
         {
             const int neighbours = 2;
@@ -61,7 +61,7 @@ namespace GameOfLifeTest
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
-        [TestMethod]
+        [Test]
         public void TestThatCellStaysAliveWithThreeNeighbours()
         {
             const int neighbours = 3;
@@ -72,7 +72,7 @@ namespace GameOfLifeTest
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
-        [TestMethod]
+        [Test]
         public void TestThatCellKnowsItsNeighbours()
         {
             Cell cell = new Cell(3, 2);
@@ -97,7 +97,7 @@ namespace GameOfLifeTest
             Assert.AreEqual(8, actualNumberOfNeighbours);
         }
 
-        [TestMethod]
+        [Test]
         public void TestThatDeadCellsBecomeAlive()
         {
             Cell cell = new Cell(3, 2);
