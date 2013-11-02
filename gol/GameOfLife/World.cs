@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace GameOfLife
 {
@@ -14,6 +15,33 @@ namespace GameOfLife
         private const int TotalItems = Width * Height;
            
         private Cell[] world = new Cell[TotalItems];
+
+        #endregion
+
+        #region Object Members
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    string printChar = " ";
+                    if (world[Index(i, j)] != null)
+                    {
+                        printChar = "*";
+                    }
+
+                    sb.Append(printChar);
+                }
+
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
 
         #endregion
 
@@ -58,26 +86,7 @@ namespace GameOfLife
 
         public void Add(Cell cell)
         {
-            world[cell.X + cell.Y * 22] = cell;
-        }
-
-        public void DisplayOutput()
-        {
-            for (int i = 0; i < 22; i++)
-            {
-                for (int j = 0; j < 30; j++)
-                {
-                    string printChar = " ";
-                    if (world[i + j * 22] != null)
-                    {
-                        printChar = "*";
-                    }
-                    
-                    Console.Write(printChar);
-                }
-                
-                Console.WriteLine();
-            }
+            world[Index(cell.X, cell.Y)] = cell;
         }
 
         public Cell[] GetWorld()
@@ -85,9 +94,22 @@ namespace GameOfLife
             return world;
         }
 
-        public void SetWorld(Cell[] newWorld)
+        public IEnumerable<Cell> GetLiveCells()
         {
-            world = newWorld;
+            return world.Where(c => c != null && IsCellAlive(c));
+        } 
+
+        public void Initialise(IEnumerable<Cell> cells = null)
+        {
+            world = new Cell[TotalItems];
+            
+            if (cells != null)
+            {
+                foreach (Cell c in cells)
+                {
+                    world[Index(c.X, c.Y)] = c;
+                }
+            }
         }
 
         public static bool IsCellAlive(int neighbours)
@@ -177,11 +199,6 @@ namespace GameOfLife
         #endregion
 
         #region Private Members
-
-        private void Initialise()
-        {
-            world = new Cell[TotalItems];
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int Index(int x, int y)

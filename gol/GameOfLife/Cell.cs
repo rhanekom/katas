@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
     public class Cell
     {
@@ -14,7 +10,5 @@ namespace GameOfLife
             X = x;
             Y = y;
         }
-        
-        
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameOfLife
 {
@@ -28,28 +30,13 @@ namespace GameOfLife
 
             while (iterations > 0)
             {
-                world.DisplayOutput();
+                Console.Write(world.ToString());
 
-                var cellsToKeep = new List<Cell>();
-
-                for (int i = 0; i < 22*30; i++)
-                {
-                    Cell c = world.GetWorld()[i];
-                    if (c != null && world.IsCellAlive(c))
-                    {
-                        cellsToKeep.Add(c);
-                    }
-                    
-                }
+                List<Cell> cellsToKeep = world.GetLiveCells().ToList();
                 List<Cell> newCells = world.ListOfNewCells();
 
                 cellsToKeep.AddRange(newCells);
-                world.SetWorld(new Cell[22 * 30]);
-
-                foreach(Cell c in cellsToKeep)
-                {
-                    world.GetWorld()[c.X + c.Y * 22] = c;
-                }
+                world.Initialise(cellsToKeep);
 
                 iterations--;
             }
