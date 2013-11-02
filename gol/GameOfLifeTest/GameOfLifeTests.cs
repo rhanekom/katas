@@ -34,7 +34,7 @@ namespace GameOfLifeTest
             const int neighbours = 1;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = Cell.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -44,7 +44,7 @@ namespace GameOfLifeTest
             const int neighbours = 4;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = Cell.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -54,7 +54,7 @@ namespace GameOfLifeTest
             const int neighbours = 2;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = Cell.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -64,7 +64,7 @@ namespace GameOfLifeTest
             const int neighbours = 3;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = Cell.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -89,7 +89,7 @@ namespace GameOfLifeTest
             World.Add(new Cell(4, 2));
             World.Add(new Cell(4, 3));
 
-            int actualNumberOfNeighbours = Cell.GetNumberOfNeighbours(cell);
+            int actualNumberOfNeighbours = World.GetNumberOfNeighbours(cell);
             Assert.AreEqual(8, actualNumberOfNeighbours);
         }
 
