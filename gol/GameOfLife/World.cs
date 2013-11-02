@@ -13,7 +13,7 @@ namespace GameOfLife
         private const int WorldHeight = 30;
         private const int TotalItems = WorldWidth * WorldHeight;
            
-        private ICell[] world = new ICell[TotalItems];
+        private readonly ICell[] world = new ICell[TotalItems];
         private readonly IWorldPrinter worldPrinter;
 
         #endregion
@@ -22,6 +22,11 @@ namespace GameOfLife
 
         public World(IWorldPrinter worldPrinter)
         {
+            for (int i = 0; i < TotalItems; i++)
+            {
+                world[i] = new Cell();
+            }
+
             this.worldPrinter = worldPrinter;
         }
 
@@ -44,10 +49,6 @@ namespace GameOfLife
             set { world[Index(x, y)] = value; }
         }
 
-        #endregion
-
-        #region Public Members
-
         public int Width
         {
             get
@@ -63,110 +64,85 @@ namespace GameOfLife
                 return WorldHeight;
             }
         }
+        
+        #endregion
 
-        public IEnumerable<ICell> ListOfNewCells()
+        #region Public Members
+
+        public World NextIteration()
         {
-            var newCellList = new List<ICell>();
-            
-            foreach (ICell c in GetCells())
-            {
-                List<ICell> neighbourList = GetNeighbours(c);
-                foreach (ICell neighbour in neighbourList)
-                {
-                    int numberOfNeighbours = GetNumberOfNeighbours(neighbour);
-                    bool isNotPresentInWorld = IsNotPresentInWorld(neighbour);
-                    bool isNotPresentInList = IsNotPresentInList(newCellList, neighbour);
+            var newWorld = new World(worldPrinter);
 
-                    if (numberOfNeighbours == 3 && isNotPresentInWorld && isNotPresentInList)
-                    {
-                        newCellList.Add(neighbour);
-                    }
-                }
-            }
-            return newCellList;
+            EachCell((cx, cy) => { 
+                if (IsCellAlive(cx, cy))
+                {
+                    newWorld[cx, cy].Live(); 
+                } });
+
+            return newWorld;
         }
 
-        public void Add(ICell cell)
+        public static bool IsCellAlive(CellState cellState, int neighbours)
         {
-            world[Index(cell.X, cell.Y)] = cell;
+            if (cellState == CellState.Dead)
+            {
+                return neighbours == 3;
+            }
+            
+            return neighbours == 2 || neighbours == 3;
+        }
+
+
+        public bool IsCellAlive(int x, int y)
+        {
+            ICell cell = this[x, y];
+            return IsCellAlive(cell.State, GetNumberOfNeighbours(x, y));
+        }
+
+        public void EachCell(Action<int, int> action)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    action(x, y);
+                }
+            }
+        }
+
+        public int GetNumberOfNeighbours(int x, int y)
+        {
+            int count = 0;
+
+            for (int i = Math.Max(0, x - 1); i <= Math.Min(Width - 1, x + 1); i++)
+            {
+                for (int j = Math.Max(0, y - 1); j <= Math.Min(Height - 1, y + 1); j++)
+                {
+                    if ((i == x) && (j == y))
+                    {
+                        continue;
+                    }
+
+                    if (this[i, j].State == CellState.Alive)
+                    {
+                        count++;
+                    }
+                }
+                
+            }
+
+            return count;
         }
 
         public IEnumerable<ICell> GetLiveCells()
         {
-            return world.Where(c => c != null && IsCellAlive(c));
-        } 
-
-        public void Initialise(IEnumerable<ICell> cells = null)
-        {
-            world = new ICell[TotalItems];
-            
-            if (cells != null)
-            {
-                foreach (Cell c in cells)
-                {
-                    world[Index(c.X, c.Y)] = c;
-                }
-            }
-        }
-
-        public static bool IsCellAlive(int neighbours)
-        {
-            return !(neighbours > 3 || neighbours < 2);
-        }
-
-        public bool IsCellAlive(ICell cell)
-        {
-            return IsCellAlive(GetNumberOfNeighbours(cell));
-        }
-
-        public int GetNumberOfNeighbours(ICell cell)
-        {
-            return GetCells().Count(x => IsNeighbour(x, cell));
-        }
-
-        public static bool IsNeighbour(ICell potentialNeighbour, ICell focus)
-        {
-            double sqDistance = Math.Pow(focus.X - potentialNeighbour.X, 2) + Math.Pow(focus.Y - potentialNeighbour.Y, 2);
-            return sqDistance <= 2 && sqDistance > 0;
-        }
-
-        public bool IsNotPresentInWorld(ICell needle)
-        {
-            return world.All(cell => cell == null || !cell.Equals(needle));
-        }
-
-        public static bool IsNotPresentInList(List<ICell> haystack, ICell needle)
-        {
-            return haystack.Count(cell => cell.Equals(needle)) == 0;
-        }
-
-        public static List<ICell> GetNeighbours(ICell focus)
-        {
-            var neighbourList = new List<ICell>();
-            for (int i = -1; i < 2; i++)
-            {
-                for (int j = -1; j < 2; j++)
-                {
-                    var newCell = new Cell(focus.X + i, focus.Y + j);
-                    if (IsNeighbour(focus, newCell))
-                    {
-                        neighbourList.Add(newCell);
-                    }
-                }
-            }
-
-            return neighbourList;
+            return world.Where(x => x.State == CellState.Alive);
         }
 
         #endregion
 
         #region Private Members
 
-        private IEnumerable<ICell> GetCells()
-        {
-            return world.Where(x => x != null);
-        }
-            
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int Index(int x, int y)
         {

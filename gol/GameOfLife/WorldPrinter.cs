@@ -30,7 +30,7 @@ namespace GameOfLife
 
         private static string GetPrintChar(ICell cell)
         {
-            return cell != null ? "*" : " ";
+            return cell.State == CellState.Alive ? "*" : " ";
         }
 
         #endregion

@@ -2,7 +2,10 @@
 {
     public interface ICell
     {
-        int X { get; }
-        int Y { get; }
+        CellState State { get; }
+
+        void Live();
+
+        void Die();
     }
 }

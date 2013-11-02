@@ -12,31 +12,25 @@ namespace GameOfLife
 
             int iterations = 50;
 
-            world.Add(new Cell(3, 10));
-            world.Add(new Cell(3, 11));
-            world.Add(new Cell(3, 12));
+            world[3, 10].Live();
+            world[3, 11].Live();
+            world[3, 12].Live();
 
-            world.Add(new Cell(8, 13));
-            world.Add(new Cell(8, 12));
-            world.Add(new Cell(7, 13));
-            world.Add(new Cell(7, 12));
+            world[8, 13].Live();
+            world[8, 12].Live();
+            world[7, 13].Live();
+            world[7, 12].Live();
 
-            world.Add(new Cell(3, 3));
-            world.Add(new Cell(3, 2));
-            world.Add(new Cell(3, 1));
-            world.Add(new Cell(2, 3));
-            world.Add(new Cell(1, 2));
+            world[3, 3].Live();
+            world[3, 2].Live();
+            world[3, 1].Live();
+            world[2, 3].Live();
+            world[1, 2].Live();
 
             while (iterations > 0)
             {
                 Console.Write(world.ToString());
-
-                List<ICell> cellsToKeep = world.GetLiveCells().ToList();
-                List<ICell> newCells = world.ListOfNewCells().ToList();
-
-                cellsToKeep.AddRange(newCells);
-                world.Initialise(cellsToKeep);
-
+                world = world.NextIteration();
                 iterations--;
             }
         }

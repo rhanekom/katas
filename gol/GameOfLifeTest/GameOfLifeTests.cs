@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using GameOfLife;
-using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace GameOfLifeTest
@@ -45,7 +44,7 @@ namespace GameOfLifeTest
             const int neighbours = 1;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = World.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(CellState.Alive, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -55,7 +54,7 @@ namespace GameOfLifeTest
             const int neighbours = 4;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = World.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(CellState.Alive, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -65,7 +64,7 @@ namespace GameOfLifeTest
             const int neighbours = 2;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = World.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(CellState.Alive, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -75,58 +74,75 @@ namespace GameOfLifeTest
             const int neighbours = 3;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = World.IsCellAlive(neighbours);
+            bool actualIsCellAlive = World.IsCellAlive(CellState.Alive, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
         [Test]
         public void TestThatCellKnowsItsNeighbours()
         {
-            var cell = new Cell(3, 2);
-            world.Add(new Cell(1, 1));
-            world.Add(new Cell(1, 2));
-            world.Add(new Cell(1, 3));
-            world.Add(new Cell(2, 1));
-            world.Add(new Cell(2, 3));
-            world.Add(new Cell(3, 1));
-            world.Add(new Cell(3, 2));
-            world.Add(new Cell(3, 3));
-            world.Add(new Cell(2, 0));
-            world.Add(new Cell(2, 2));
-            world.Add(new Cell(2, 4));
-            world.Add(new Cell(3, 0));
-            world.Add(new Cell(3, 4));
-            world.Add(new Cell(4, 1));
-            world.Add(new Cell(4, 2));
-            world.Add(new Cell(4, 3));
+            world[1, 1].Live();
+            world[1, 2].Live();
+            world[1, 3].Live();
+            world[2, 1].Live();
+            world[2, 3].Live();
+            world[3, 1].Live();
+            world[3, 2].Live();
+            world[3, 3].Live();
+            world[2, 0].Live();
+            world[2, 2].Live();
+            world[2, 4].Live();
+            world[3, 0].Live();
+            world[3, 4].Live();
+            world[4, 1].Live();
+            world[4, 2].Live();
+            world[4, 3].Live();
 
-            int actualNumberOfNeighbours = world.GetNumberOfNeighbours(cell);
+            int actualNumberOfNeighbours = world.GetNumberOfNeighbours(3, 2);
             Assert.AreEqual(8, actualNumberOfNeighbours);
         }
 
         [Test]
+        public void OneCellDies()
+        {
+            world[1, 1].Live();
+            var nextWorld = world.NextIteration();
+            Assert.AreEqual(0, nextWorld.GetLiveCells().Count());
+        }
+
+        [Test]
+        public void TwoCellsLive()
+        {
+            world[1, 1].Live();
+            world[1, 2].Live();
+            var nextWorld = world.NextIteration();
+            Assert.AreEqual(0, nextWorld.GetLiveCells().Count());
+        }
+
+
+        [Test]
         public void TestThatDeadCellsBecomeAlive()
         {
-            world.Add(new Cell(1, 1));
-            world.Add(new Cell(1, 2));
-            world.Add(new Cell(1, 3));
-            world.Add(new Cell(2, 1));
-            world.Add(new Cell(2, 3));
-            world.Add(new Cell(3, 1));
-            world.Add(new Cell(3, 2));
-            world.Add(new Cell(3, 3));
-            world.Add(new Cell(2, 0));
-            world.Add(new Cell(2, 2));
-            world.Add(new Cell(2, 4));
-            world.Add(new Cell(3, 0));
-            world.Add(new Cell(3, 4));
-            world.Add(new Cell(4, 1));
-            world.Add(new Cell(4, 2));
-            world.Add(new Cell(4, 3));
+            world[1, 1].Live();
+            world[1, 2].Live();
+            world[1, 3].Live();
+            world[2, 1].Live();
+            world[2, 3].Live();
+            world[3, 1].Live();
+            world[3, 2].Live();
+            world[3, 3].Live();
+            world[2, 0].Live();
+            world[2, 2].Live();
+            world[2, 4].Live();
+            world[3, 0].Live();
+            world[3, 4].Live();
+            world[4, 1].Live();
+            world[4, 2].Live();
+            world[4, 3].Live();
 
-            List<ICell> newCells = world.ListOfNewCells().ToList();
+            var newWorld = world.NextIteration();
             
-            Assert.AreEqual(6, newCells.Count);
+            Assert.AreEqual(6, newWorld.GetLiveCells().Count());
         }
     }
 }

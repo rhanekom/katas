@@ -4,42 +4,29 @@
     {
         #region Construction
 
-        public Cell(int x, int y)
+        public Cell()
         {
-            X = x;
-            Y = y;
+            State = CellState.Dead;
         }
 
         #endregion
 
         #region Properties
 
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public CellState State { get; private set; }
 
         #endregion
 
-        #region Object Members
+        #region Public Members
 
-        protected bool Equals(Cell other)
+        public void Live()
         {
-            return X == other.X && Y == other.Y;
+            State = CellState.Alive;
         }
 
-        public override bool Equals(object obj)
+        public void Die()
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Cell) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (X*397) ^ Y;
-            }
+            State = CellState.Dead;
         }
 
         #endregion
