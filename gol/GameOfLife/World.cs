@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace GameOfLife
 {
@@ -11,9 +10,8 @@ namespace GameOfLife
 
         private const int WorldWidth = 22;
         private const int WorldHeight = 30;
-        private const int TotalItems = WorldWidth * WorldHeight;
-           
-        private readonly ICell[] world = new ICell[TotalItems];
+
+        private readonly CellArray world;
         private readonly IWorldPrinter worldPrinter;
 
         #endregion
@@ -22,11 +20,7 @@ namespace GameOfLife
 
         public World(IWorldPrinter worldPrinter)
         {
-            for (int i = 0; i < TotalItems; i++)
-            {
-                world[i] = new Cell();
-            }
-
+            world = new CellArray(WorldWidth, WorldHeight);
             this.worldPrinter = worldPrinter;
         }
 
@@ -45,8 +39,8 @@ namespace GameOfLife
 
         public ICell this[int x, int y]
         {
-            get { return world[Index(x, y)]; }
-            set { world[Index(x, y)] = value; }
+            get { return world[x, y]; }
+            set { world[x, y] = value; }
         }
 
         public int Width
@@ -82,32 +76,9 @@ namespace GameOfLife
             return newWorld;
         }
 
-        public static bool IsCellAlive(CellState cellState, int neighbours)
+        public static bool IsCellAlive(bool cellAlive, int neighbours)
         {
-            if (cellState == CellState.Dead)
-            {
-                return neighbours == 3;
-            }
-            
-            return neighbours == 2 || neighbours == 3;
-        }
-
-
-        public bool IsCellAlive(int x, int y)
-        {
-            ICell cell = this[x, y];
-            return IsCellAlive(cell.State, GetNumberOfNeighbours(x, y));
-        }
-
-        public void EachCell(Action<int, int> action)
-        {
-            for (int x = 0; x < Width; x++)
-            {
-                for (int y = 0; y < Height; y++)
-                {
-                    action(x, y);
-                }
-            }
+            return !cellAlive ? neighbours == 3 : neighbours == 2 || neighbours == 3;
         }
 
         public int GetNumberOfNeighbours(int x, int y)
@@ -123,7 +94,7 @@ namespace GameOfLife
                         continue;
                     }
 
-                    if (this[i, j].State == CellState.Alive)
+                    if (this[i, j].IsAlive)
                     {
                         count++;
                     }
@@ -136,17 +107,28 @@ namespace GameOfLife
 
         public IEnumerable<ICell> GetLiveCells()
         {
-            return world.Where(x => x.State == CellState.Alive);
+            return world.Where(x => x.IsAlive);
         }
 
         #endregion
 
         #region Private Members
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private int Index(int x, int y)
+        private bool IsCellAlive(int x, int y)
         {
-            return x + y * WorldWidth;
+            ICell cell = this[x, y];
+            return IsCellAlive(cell.IsAlive, GetNumberOfNeighbours(x, y));
+        }
+
+        private void EachCell(Action<int, int> action)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    action(x, y);
+                }
+            }
         }
 
         #endregion

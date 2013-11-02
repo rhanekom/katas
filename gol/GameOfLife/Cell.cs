@@ -11,9 +11,24 @@
 
         #endregion
 
+        #region Object Members
+
+        public override string ToString()
+        {
+            return IsAlive ? "*" : " ";
+        }
+
+        #endregion
+
         #region Properties
 
-        public CellState State { get; private set; }
+        public bool IsAlive
+        {
+            get
+            {
+                return State == CellState.Alive;
+            }
+        }
 
         #endregion
 
@@ -23,11 +38,11 @@
         {
             State = CellState.Alive;
         }
+        #endregion
 
-        public void Die()
-        {
-            State = CellState.Dead;
-        }
+        #region Private Members
+
+        private CellState State { get; set; }
 
         #endregion
     }

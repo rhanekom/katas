@@ -2,10 +2,7 @@
 {
     public interface ICell
     {
-        CellState State { get; }
-
+        bool IsAlive { get; }
         void Live();
-
-        void Die();
     }
 }

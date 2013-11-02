@@ -14,23 +14,13 @@ namespace GameOfLife
             {
                 for (int j = 0; j < world.Height; j++)
                 {
-                    var printChar = GetPrintChar(world[i, j]);
-                    sb.Append(printChar);
+                    sb.Append(world[i, j]);
                 }
 
                 sb.AppendLine();
             }
 
             return sb.ToString();
-        }
-
-        #endregion
-
-        #region Private Members
-
-        private static string GetPrintChar(ICell cell)
-        {
-            return cell.State == CellState.Alive ? "*" : " ";
         }
 
         #endregion
