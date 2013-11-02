@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace GameOfLife
 {
@@ -68,13 +67,9 @@ namespace GameOfLife
         public IEnumerable<ICell> ListOfNewCells()
         {
             var newCellList = new List<ICell>();
-            for (int i = 0; i < TotalItems; i++)
+            
+            foreach (ICell c in GetCells())
             {
-                ICell c = world[i];
-                if (c == null)
-                {
-                    continue;
-                }
                 List<ICell> neighbourList = GetNeighbours(c);
                 foreach (ICell neighbour in neighbourList)
                 {
@@ -126,18 +121,13 @@ namespace GameOfLife
 
         public int GetNumberOfNeighbours(ICell cell)
         {
-            return world.Count(x => x != null && IsNeighbour(x, cell));
+            return GetCells().Count(x => IsNeighbour(x, cell));
         }
 
         public static bool IsNeighbour(ICell potentialNeighbour, ICell focus)
         {
-            bool result = false;
             double sqDistance = Math.Pow(focus.X - potentialNeighbour.X, 2) + Math.Pow(focus.Y - potentialNeighbour.Y, 2);
-            if (sqDistance <= 2 && sqDistance > 0)
-            {
-                result = true;
-            }
-            return result;
+            return sqDistance <= 2 && sqDistance > 0;
         }
 
         public bool IsNotPresentInWorld(ICell needle)
@@ -172,6 +162,11 @@ namespace GameOfLife
 
         #region Private Members
 
+        private IEnumerable<ICell> GetCells()
+        {
+            return world.Where(x => x != null);
+        }
+            
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int Index(int x, int y)
         {

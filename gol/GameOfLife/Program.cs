@@ -8,7 +8,6 @@ namespace GameOfLife
     {
         public static void Main(string[] args)
         {
-
             var world = new World(new WorldPrinter());
 
             int iterations = 50;
