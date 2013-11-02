@@ -22,6 +22,16 @@ namespace GameOfLife
             return !(neighbours > 3 || neighbours < 2);
         }
 
+        public static void Clear()
+        {
+            Initialise();
+        }
+
+        private static void Initialise()
+        {
+            _world = new Cell[22 * 30];
+        }
+
         public bool IsCellAlive()
         {
             int neighbours = 0;

@@ -1,4 +1,6 @@
-﻿using GameOfLife;
+﻿using System;
+using System.IO;
+using GameOfLife;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
@@ -7,6 +9,25 @@ namespace GameOfLifeTest
     [TestClass]
     public class GameOfLifeTests
     {
+        [TestInitialize]
+        public void Setup()
+        {
+            Cell.Clear();
+        }
+
+        [TestMethod]
+        public void GoldenMasterTest()
+        {
+            string expected = File.ReadAllText("..\\..\\output.txt");
+
+            var writer = new StringWriter();
+            Console.SetOut(writer);
+            
+            Program.Main(null);
+
+            Assert.AreEqual(expected, writer.ToString());
+        }
+
         [TestMethod]
         public void TestThatCellDiesWithOneNeighbour()
         {
@@ -79,9 +100,23 @@ namespace GameOfLifeTest
         [TestMethod]
         public void TestThatDeadCellsBecomeAlive()
         {
+            Cell cell = new Cell(3, 2);
             Cell.Add(new Cell(1, 1));
             Cell.Add(new Cell(1, 2));
             Cell.Add(new Cell(1, 3));
+            Cell.Add(new Cell(2, 1));
+            Cell.Add(new Cell(2, 3));
+            Cell.Add(new Cell(3, 1));
+            Cell.Add(new Cell(3, 2));
+            Cell.Add(new Cell(3, 3));
+            Cell.Add(new Cell(2, 0));
+            Cell.Add(new Cell(2, 2));
+            Cell.Add(new Cell(2, 4));
+            Cell.Add(new Cell(3, 0));
+            Cell.Add(new Cell(3, 4));
+            Cell.Add(new Cell(4, 1));
+            Cell.Add(new Cell(4, 2));
+            Cell.Add(new Cell(4, 3));
 
             List<Cell> newCells = Cell.ListOfNewCells();
             

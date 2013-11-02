@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace GameOfLife
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             int iterations = 50;
 
@@ -52,8 +52,6 @@ namespace GameOfLife
 
                 iterations--;
             }
-
-            Console.ReadKey();
         }
     }
 }

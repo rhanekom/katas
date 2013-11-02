@@ -60,6 +60,9 @@
       <Name>GameOfLife</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="output.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
