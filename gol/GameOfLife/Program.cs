@@ -9,7 +9,7 @@ namespace GameOfLife
         public static void Main(string[] args)
         {
 
-            var world = new World();
+            var world = new World(new WorldPrinter());
 
             int iterations = 50;
 
@@ -32,8 +32,8 @@ namespace GameOfLife
             {
                 Console.Write(world.ToString());
 
-                List<Cell> cellsToKeep = world.GetLiveCells().ToList();
-                List<Cell> newCells = world.ListOfNewCells();
+                List<ICell> cellsToKeep = world.GetLiveCells().ToList();
+                List<ICell> newCells = world.ListOfNewCells().ToList();
 
                 cellsToKeep.AddRange(newCells);
                 world.Initialise(cellsToKeep);

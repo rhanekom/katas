@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using GameOfLife;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -20,7 +21,7 @@ namespace GameOfLifeTest
         [SetUp]
         public void Setup()
         {
-            world = new World();
+            world = new World(new WorldPrinter());
         }
 
         #endregion
@@ -123,7 +124,7 @@ namespace GameOfLifeTest
             world.Add(new Cell(4, 2));
             world.Add(new Cell(4, 3));
 
-            List<Cell> newCells = world.ListOfNewCells();
+            List<ICell> newCells = world.ListOfNewCells().ToList();
             
             Assert.AreEqual(6, newCells.Count);
         }

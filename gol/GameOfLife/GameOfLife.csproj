@@ -46,9 +46,13 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="ICell.cs" />
+    <Compile Include="IWorld.cs" />
+    <Compile Include="IWorldPrinter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World.cs" />
+    <Compile Include="WorldPrinter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

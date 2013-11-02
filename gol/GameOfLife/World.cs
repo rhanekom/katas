@@ -6,15 +6,25 @@ using System.Text;
 
 namespace GameOfLife
 {
-    public class World
+    public class World : IWorld
     {
         #region Globals
 
-        private const int Width = 22;
-        private const int Height = 30;
-        private const int TotalItems = Width * Height;
+        private const int WorldWidth = 22;
+        private const int WorldHeight = 30;
+        private const int TotalItems = WorldWidth * WorldHeight;
            
-        private Cell[] world = new Cell[TotalItems];
+        private ICell[] world = new ICell[TotalItems];
+        private readonly IWorldPrinter worldPrinter;
+
+        #endregion
+
+        #region Construction
+
+        public World(IWorldPrinter worldPrinter)
+        {
+            this.worldPrinter = worldPrinter;
+        }
 
         #endregion
 
@@ -22,55 +32,51 @@ namespace GameOfLife
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-
-            for (int i = 0; i < Width; i++)
-            {
-                for (int j = 0; j < Height; j++)
-                {
-                    var printChar = GetPrintChar(i, j);
-                    sb.Append(printChar);
-                }
-
-                sb.AppendLine();
-            }
-
-            return sb.ToString();
+            return worldPrinter.Print(this);
         }
 
-        private string GetPrintChar(int i, int j)
-        {
-            Cell cell = world[Index(i, j)];
-            return GetPrintChar(cell);
-        }
+        #endregion
 
-        private static string GetPrintChar(Cell cell)
+        #region IWorld Members
+
+        public ICell this[int x, int y]
         {
-            return cell != null ? "*" : " ";
+            get { return world[Index(x, y)]; }
+            set { world[Index(x, y)] = value; }
         }
 
         #endregion
 
         #region Public Members
 
-        public Cell this[int x, int y]
+        public int Width
         {
-            get { return world[Index(x, y)]; }
-            set { world[Index(x, y)] = value; }
+            get
+            {
+                return WorldWidth;
+            }
         }
 
-        public List<Cell> ListOfNewCells()
+        public int Height
         {
-            var newCellList = new List<Cell>();
+            get
+            {
+                return WorldHeight;
+            }
+        }
+
+        public IEnumerable<ICell> ListOfNewCells()
+        {
+            var newCellList = new List<ICell>();
             for (int i = 0; i < TotalItems; i++)
             {
-                Cell c = world[i];
+                ICell c = world[i];
                 if (c == null)
                 {
                     continue;
                 }
-                List<Cell> neighbourList = GetNeighbours(c);
-                foreach (Cell neighbour in neighbourList)
+                List<ICell> neighbourList = GetNeighbours(c);
+                foreach (ICell neighbour in neighbourList)
                 {
                     int numberOfNeighbours = GetNumberOfNeighbours(neighbour);
                     bool isNotPresentInWorld = IsNotPresentInWorld(neighbour);
@@ -85,19 +91,19 @@ namespace GameOfLife
             return newCellList;
         }
 
-        public void Add(Cell cell)
+        public void Add(ICell cell)
         {
             world[Index(cell.X, cell.Y)] = cell;
         }
 
-        public IEnumerable<Cell> GetLiveCells()
+        public IEnumerable<ICell> GetLiveCells()
         {
             return world.Where(c => c != null && IsCellAlive(c));
         } 
 
-        public void Initialise(IEnumerable<Cell> cells = null)
+        public void Initialise(IEnumerable<ICell> cells = null)
         {
-            world = new Cell[TotalItems];
+            world = new ICell[TotalItems];
             
             if (cells != null)
             {
@@ -113,37 +119,17 @@ namespace GameOfLife
             return !(neighbours > 3 || neighbours < 2);
         }
 
-        public bool IsCellAlive(Cell cell)
+        public bool IsCellAlive(ICell cell)
         {
-            int neighbours = 0;
-
-            for (int i = 0; i < TotalItems; i++)
-            {
-                Cell neighbour = world[i];
-                if (neighbour != null && IsNeighbour(neighbour, cell))
-                {
-                    neighbours++;
-                }
-            }
-
-            return IsCellAlive(neighbours);
+            return IsCellAlive(GetNumberOfNeighbours(cell));
         }
 
-        public int GetNumberOfNeighbours(Cell cell)
+        public int GetNumberOfNeighbours(ICell cell)
         {
-            int neighbours = 0;
-            for (int i = 0; i < TotalItems; i++)
-            {
-                Cell neighbour = world[i];
-                if (neighbour != null && IsNeighbour(neighbour, cell))
-                {
-                    neighbours++;
-                }
-            }
-            return neighbours;
+            return world.Count(x => x != null && IsNeighbour(x, cell));
         }
 
-        public static bool IsNeighbour(Cell potentialNeighbour, Cell focus)
+        public static bool IsNeighbour(ICell potentialNeighbour, ICell focus)
         {
             bool result = false;
             double sqDistance = Math.Pow(focus.X - potentialNeighbour.X, 2) + Math.Pow(focus.Y - potentialNeighbour.Y, 2);
@@ -154,29 +140,19 @@ namespace GameOfLife
             return result;
         }
 
-
-        public bool IsNotPresentInWorld(Cell needle)
+        public bool IsNotPresentInWorld(ICell needle)
         {
-            bool result = true;
-            for (int i = 0; i < TotalItems; i++)
-            {
-                Cell cell = world[i];
-                if (cell != null && cell.X == needle.X && cell.Y == needle.Y)
-                {
-                    result = false;
-                }
-            }
-            return result;
+            return world.All(cell => cell == null || !cell.Equals(needle));
         }
 
-        public static bool IsNotPresentInList(List<Cell> haystack, Cell needle)
+        public static bool IsNotPresentInList(List<ICell> haystack, ICell needle)
         {
-            return haystack.Count(cell => (needle.X == cell.X) && (needle.Y == cell.Y)) == 0;
+            return haystack.Count(cell => cell.Equals(needle)) == 0;
         }
 
-        public static List<Cell> GetNeighbours(Cell focus)
+        public static List<ICell> GetNeighbours(ICell focus)
         {
-            var neighbourList = new List<Cell>();
+            var neighbourList = new List<ICell>();
             for (int i = -1; i < 2; i++)
             {
                 for (int j = -1; j < 2; j++)
@@ -199,7 +175,7 @@ namespace GameOfLife
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int Index(int x, int y)
         {
-            return x + y * Width;
+            return x + y * WorldWidth;
         }
 
         #endregion
