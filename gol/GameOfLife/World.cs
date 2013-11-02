@@ -7,7 +7,7 @@ namespace GameOfLife
     {
         #region Globals
 
-        private static Cell[] _world = new Cell[22 * 30];
+        private static Cell[] world = new Cell[22 * 30];
 
         #endregion
 
@@ -20,20 +20,20 @@ namespace GameOfLife
 
         public static List<Cell> ListOfNewCells()
         {
-            List<Cell> newCellList = new List<Cell>();
+            var newCellList = new List<Cell>();
             for (int i = 0; i < 22 * 30; i++)
             {
-                Cell c = _world[i];
+                Cell c = world[i];
                 if (c == null)
                 {
                     continue;
                 }
-                List<Cell> neighbourList = c.GetNeighbours();
+                List<Cell> neighbourList = Cell.GetNeighbours(c);
                 foreach (Cell neighbour in neighbourList)
                 {
-                    int numberOfNeighbours = neighbour.DetermineNumberOfNeighbours();
-                    bool isNotPresentInWorld = neighbour.IsNotPresentInWorld();
-                    bool isNotPresentInList = neighbour.IsNotPresentInList(newCellList);
+                    int numberOfNeighbours = Cell.GetNumberOfNeighbours(neighbour);
+                    bool isNotPresentInWorld = Cell.IsNotPresentInWorld(neighbour);
+                    bool isNotPresentInList = Cell.IsNotPresentInList(newCellList, neighbour);
 
                     if (numberOfNeighbours == 3 && isNotPresentInWorld && isNotPresentInList)
                     {
@@ -46,7 +46,7 @@ namespace GameOfLife
 
         public static void Add(Cell cell)
         {
-            _world[cell.X + cell.Y * 22] = cell;
+            world[cell.X + cell.Y * 22] = cell;
         }
 
         public static void DisplayOutput()
@@ -56,7 +56,7 @@ namespace GameOfLife
                 for (int j = 0; j < 30; j++)
                 {
                     string printChar = " ";
-                    if (_world[i + j * 22] != null)
+                    if (world[i + j * 22] != null)
                     {
                         printChar = "*";
                     }
@@ -70,12 +70,12 @@ namespace GameOfLife
 
         public static Cell[] GetWorld()
         {
-            return _world;
+            return world;
         }
 
-        public static void SetWorld(Cell[] world)
+        public static void SetWorld(Cell[] newWorld)
         {
-            _world = world;
+            world = newWorld;
         }
 
         #endregion
@@ -84,7 +84,7 @@ namespace GameOfLife
 
         private static void Initialise()
         {
-            _world = new Cell[22 * 30];
+            world = new Cell[22 * 30];
         }
 
         #endregion

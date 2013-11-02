@@ -15,19 +15,19 @@ namespace GameOfLife
             Y = y;
         }
         
-        public bool IsCellAlive(int neighbours)
+        public static bool IsCellAlive(int neighbours)
         {
             return !(neighbours > 3 || neighbours < 2);
         }
-
         
-        public bool IsCellAlive()
+        public static bool IsCellAlive(Cell cell)
         {
             int neighbours = 0;
+
             for (int i = 0; i < 22*30; i++)
             {
-                Cell c = World.GetWorld()[i];
-                if(c != null && IsNeighbour(c))
+                Cell neighbour = World.GetWorld()[i];
+                if(neighbour != null && IsNeighbour(neighbour, cell))
                 {
                     neighbours++;
                 }
@@ -36,13 +36,13 @@ namespace GameOfLife
             return IsCellAlive(neighbours);
         }        
 
-        public int DetermineNumberOfNeighbours()
+        public static int GetNumberOfNeighbours(Cell cell)
         {
             int neighbours = 0;
             for (int i = 0; i < 22*30; i++)
             {
-                Cell c = World.GetWorld()[i];
-                if (c != null && IsNeighbour(c))
+                Cell neighbour = World.GetWorld()[i];
+                if (neighbour != null && IsNeighbour(neighbour, cell))
                 {
                     neighbours++;
                 }                
@@ -50,10 +50,10 @@ namespace GameOfLife
             return neighbours;
         }
 
-        public bool IsNeighbour(Cell cell)
+        public static bool IsNeighbour(Cell potentialNeighbour, Cell focus)
         {
             bool result = false;
-            double sqDistance = Math.Pow(X - cell.X, 2) + Math.Pow(Y - cell.Y, 2);
+            double sqDistance = Math.Pow(focus.X - potentialNeighbour.X, 2) + Math.Pow(focus.Y - potentialNeighbour.Y, 2);
             if (sqDistance <= 2 && sqDistance > 0)
             {
                 result = true;
@@ -62,13 +62,13 @@ namespace GameOfLife
         }
 
 
-        public bool IsNotPresentInWorld()
+        public static bool IsNotPresentInWorld(Cell needle)
         {
             bool result = true;
             for (int i = 0; i < 22*30; i++)
             {
-                Cell c = World.GetWorld()[i];
-                if(c != null && c.X == X && c.Y == Y)
+                Cell cell = World.GetWorld()[i];
+                if(cell != null && cell.X == needle.X && cell.Y == needle.Y)
                 {
                     result = false;
                 }                
@@ -76,25 +76,26 @@ namespace GameOfLife
             return result;
         }
 
-        public bool IsNotPresentInList(List<Cell> cellsList)
+        public static bool IsNotPresentInList(List<Cell> haystack, Cell needle)
         {
-            return cellsList.Count(cell => (X == cell.X) && (Y == cell.Y)) == 0;
+            return haystack.Count(cell => (needle.X == cell.X) && (needle.Y == cell.Y)) == 0;
         }
 
-        public List<Cell> GetNeighbours()
+        public static List<Cell> GetNeighbours(Cell focus)
         {
-            List<Cell> neighbourList = new List<Cell>();
+            var neighbourList = new List<Cell>();
             for (int i = -1; i < 2; i++)
             {
                 for (int j = -1; j < 2; j++)
                 {
-                    Cell newCell = new Cell(X + i, Y + j);
-                    if (newCell.IsNeighbour(this))
+                    var newCell = new Cell(focus.X + i, focus.Y + j);
+                    if (IsNeighbour(focus, newCell))
                     {
                         neighbourList.Add(newCell);
                     }
                 }
             }
+
             return neighbourList;
         }
     }

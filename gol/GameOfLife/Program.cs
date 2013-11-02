@@ -32,7 +32,7 @@ namespace GameOfLife
                 for (int i = 0; i < 22*30; i++)
                 {
                     Cell c = World.GetWorld()[i];
-                    if (c!= null && c.IsCellAlive())
+                    if (c!= null && Cell.IsCellAlive(c))
                     {
                         cellsToKeep.Add(c);
                     }
