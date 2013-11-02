@@ -28,12 +28,7 @@ namespace GameOfLife
             {
                 for (int j = 0; j < Height; j++)
                 {
-                    string printChar = " ";
-                    if (world[Index(i, j)] != null)
-                    {
-                        printChar = "*";
-                    }
-
+                    var printChar = GetPrintChar(i, j);
                     sb.Append(printChar);
                 }
 
@@ -43,14 +38,20 @@ namespace GameOfLife
             return sb.ToString();
         }
 
+        private string GetPrintChar(int i, int j)
+        {
+            Cell cell = world[Index(i, j)];
+            return GetPrintChar(cell);
+        }
+
+        private static string GetPrintChar(Cell cell)
+        {
+            return cell != null ? "*" : " ";
+        }
+
         #endregion
 
         #region Public Members
-
-        public void Clear()
-        {
-            Initialise();
-        }
 
         public Cell this[int x, int y]
         {
@@ -89,11 +90,6 @@ namespace GameOfLife
             world[Index(cell.X, cell.Y)] = cell;
         }
 
-        public Cell[] GetWorld()
-        {
-            return world;
-        }
-
         public IEnumerable<Cell> GetLiveCells()
         {
             return world.Where(c => c != null && IsCellAlive(c));
@@ -123,7 +119,7 @@ namespace GameOfLife
 
             for (int i = 0; i < TotalItems; i++)
             {
-                Cell neighbour = GetWorld()[i];
+                Cell neighbour = world[i];
                 if (neighbour != null && IsNeighbour(neighbour, cell))
                 {
                     neighbours++;
@@ -138,7 +134,7 @@ namespace GameOfLife
             int neighbours = 0;
             for (int i = 0; i < TotalItems; i++)
             {
-                Cell neighbour = GetWorld()[i];
+                Cell neighbour = world[i];
                 if (neighbour != null && IsNeighbour(neighbour, cell))
                 {
                     neighbours++;
@@ -164,7 +160,7 @@ namespace GameOfLife
             bool result = true;
             for (int i = 0; i < TotalItems; i++)
             {
-                Cell cell = GetWorld()[i];
+                Cell cell = world[i];
                 if (cell != null && cell.X == needle.X && cell.Y == needle.Y)
                 {
                     result = false;
