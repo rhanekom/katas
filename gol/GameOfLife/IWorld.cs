@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
+    using System.Collections.Generic;
+
     public interface IWorld
     {
         int Width { get; }
@@ -10,7 +10,7 @@ namespace GameOfLife
 
         IWorldPrinter Printer { get; }
 
-        ICell this[int x, int y] { get; set; }
+        ICell this[int x, int y] { get; }
 
         IEnumerable<ICell> GetLiveCells();
 

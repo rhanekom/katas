@@ -1,7 +1,7 @@
-﻿using System.Text;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
+    using System.Text;
+
     public class WorldPrinter : IWorldPrinter
     {
         #region IWorldPrinter Members

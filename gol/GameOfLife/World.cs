@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class World : IWorld
     {
         #region Globals

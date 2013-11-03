@@ -41,7 +41,8 @@
 
             newWorld.ForEachCell((cx, cy) =>
             {
-                if (IsEligibleForSurvival(cx, cy, world)) {
+                if (IsEligibleForSurvival(cx, cy, world))
+                {
                     newWorld[cx, cy].Live();
                 }
             });
@@ -49,11 +50,10 @@
             return newWorld;
         }
 
-        public static bool IsCellAlive(bool cellAlive, int neighbours)
+        public static bool IsEligibleForSurvival(bool cellAlive, int neighbours)
         {
             return !cellAlive ? neighbours == 3 : neighbours == 2 || neighbours == 3;
         }
-
 
         #endregion
 
@@ -62,7 +62,7 @@
         private bool IsEligibleForSurvival(int x, int y, IWorld world)
         {
             var cell = world[x, y];
-            return IsCellAlive(cell.IsAlive, world.GetNumberOfNeighbours(x, y));
+            return IsEligibleForSurvival(cell.IsAlive, world.GetNumberOfNeighbours(x, y));
         }
 
         #endregion

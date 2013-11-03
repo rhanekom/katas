@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
+    using System;
+
     public class ConsoleUserInterface : IUserInterface
     {
         #region IUserInterface Members

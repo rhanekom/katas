@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
+    using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+
     public class CellArray : IEnumerable<ICell>
     {
         #region Globals
@@ -18,7 +18,7 @@ namespace GameOfLife
         {
             this.width = width;
 
-            world = new ICell[width*height];
+            world = new ICell[width * height];
 
             for (int i = 0; i < world.Length; i++)
             {
@@ -32,7 +32,7 @@ namespace GameOfLife
 
         public IEnumerator<ICell> GetEnumerator()
         {
-            return ((IList<ICell>) world).GetEnumerator();
+            return ((IList<ICell>)world).GetEnumerator();
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace GameOfLife
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int Index(int x, int y)
         {
-            return x + y * width;
+            return x + (y * width);
         }
 
         #endregion

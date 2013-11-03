@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using GameOfLife;
-using NUnit.Framework;
-
-namespace GameOfLifeTest
+﻿namespace GameOfLifeTest
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using GameOfLife;
+    using NUnit.Framework;
+
     [TestFixture]
     public class GameOfLifeTests
     {
@@ -46,7 +46,7 @@ namespace GameOfLifeTest
             const int neighbours = 1;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsEligibleForSurvival(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -56,7 +56,7 @@ namespace GameOfLifeTest
             const int neighbours = 4;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsEligibleForSurvival(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -66,7 +66,7 @@ namespace GameOfLifeTest
             const int neighbours = 2;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsEligibleForSurvival(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -76,7 +76,7 @@ namespace GameOfLifeTest
             const int neighbours = 3;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsEligibleForSurvival(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -130,7 +130,6 @@ namespace GameOfLifeTest
             var nextWorld = game.NextIteration(world);
             Assert.AreEqual(3, nextWorld.GetLiveCells().Count());
         }
-
 
         [Test]
         public void TestThatDeadCellsBecomeAlive()
