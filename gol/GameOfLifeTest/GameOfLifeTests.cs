@@ -33,7 +33,7 @@ namespace GameOfLifeTest
             var writer = new StringWriter();
             Console.SetOut(writer);
             
-            Program.Main(null);
+            Program.Main();
 
             Assert.AreEqual(expected, writer.ToString());
         }
@@ -117,6 +117,16 @@ namespace GameOfLifeTest
             world[1, 2].Live();
             var nextWorld = world.NextIteration();
             Assert.AreEqual(0, nextWorld.GetLiveCells().Count());
+        }
+
+        [Test]
+        public void ThreeCellsLive()
+        {
+            world[1, 1].Live();
+            world[1, 2].Live();
+            world[1, 3].Live();
+            var nextWorld = world.NextIteration();
+            Assert.AreEqual(3, nextWorld.GetLiveCells().Count());
         }
 
 

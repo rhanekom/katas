@@ -1,14 +1,30 @@
-﻿using System;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        #region Entry Point
+        
+        public static void Main()
+        {
+            var world = CreateWorld();
+            Run(world);
+        }
+
+        #endregion
+
+        #region Private Members
+
+        private static void Run(IWorld world)
+        {
+            const int iterations = 50;
+
+            IGame game = new Game(new ConsoleUserInterface());
+            game.Run(world, iterations);
+        }
+
+        private static World CreateWorld()
         {
             var world = new World(new WorldPrinter());
-
-            int iterations = 50;
 
             world[3, 10].Live();
             world[3, 11].Live();
@@ -24,13 +40,9 @@ namespace GameOfLife
             world[3, 1].Live();
             world[2, 3].Live();
             world[1, 2].Live();
-
-            while (iterations > 0)
-            {
-                Console.Write(world.ToString());
-                world = world.NextIteration();
-                iterations--;
-            }
+            return world;
         }
+
+        #endregion
     }
 }

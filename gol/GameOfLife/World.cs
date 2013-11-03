@@ -63,7 +63,7 @@ namespace GameOfLife
 
         #region Public Members
 
-        public World NextIteration()
+        public IWorld NextIteration()
         {
             var newWorld = new World(worldPrinter);
 
@@ -83,26 +83,13 @@ namespace GameOfLife
 
         public int GetNumberOfNeighbours(int x, int y)
         {
-            int count = 0;
+            int x1 = Math.Max(0, x - 1), x2 = Math.Min(Width - 1, x + 1);
+            int y1 = Math.Max(0, y - 1), y2 = Math.Min(Height - 1, y + 1);
 
-            for (int i = Math.Max(0, x - 1); i <= Math.Min(Width - 1, x + 1); i++)
-            {
-                for (int j = Math.Max(0, y - 1); j <= Math.Min(Height - 1, y + 1); j++)
-                {
-                    if ((i == x) && (j == y))
-                    {
-                        continue;
-                    }
-
-                    if (this[i, j].IsAlive)
-                    {
-                        count++;
-                    }
-                }
-                
-            }
-
-            return count;
+            return RangeBetween(x1, x2)
+                .SelectMany(i => RangeBetween(y1, y2).Select(j => new { X = i, Y = j }))
+                .Where(r => r.X != x || r.Y != y)
+                .Count(r => this[r.X, r.Y].IsAlive);
         }
 
         public IEnumerable<ICell> GetLiveCells()
@@ -113,6 +100,11 @@ namespace GameOfLife
         #endregion
 
         #region Private Members
+
+        private IEnumerable<int> RangeBetween(int start, int end)
+        {
+            return Enumerable.Range(start, end - start + 1);
+        } 
 
         private bool IsCellAlive(int x, int y)
         {
