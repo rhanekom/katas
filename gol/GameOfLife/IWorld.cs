@@ -8,10 +8,12 @@ namespace GameOfLife
 
         int Height { get; }
 
+        IWorldPrinter Printer { get; }
+
         ICell this[int x, int y] { get; set; }
 
-        IWorld NextIteration();
-
         IEnumerable<ICell> GetLiveCells();
+
+        int GetNumberOfNeighbours(int x, int y);
     }
 }

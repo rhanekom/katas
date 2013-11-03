@@ -11,6 +11,7 @@ namespace GameOfLifeTest
     {
         #region Globals
 
+        private Game game;
         private World world;
 
         #endregion
@@ -20,6 +21,7 @@ namespace GameOfLifeTest
         [SetUp]
         public void Setup()
         {
+            game = new Game(new ConsoleUserInterface());
             world = new World(new WorldPrinter());
         }
 
@@ -44,7 +46,7 @@ namespace GameOfLifeTest
             const int neighbours = 1;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = World.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -54,7 +56,7 @@ namespace GameOfLifeTest
             const int neighbours = 4;
             const bool expectedIsCellAlive = false;
 
-            bool actualIsCellAlive = World.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -64,7 +66,7 @@ namespace GameOfLifeTest
             const int neighbours = 2;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = World.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -74,7 +76,7 @@ namespace GameOfLifeTest
             const int neighbours = 3;
             const bool expectedIsCellAlive = true;
 
-            bool actualIsCellAlive = World.IsCellAlive(true, neighbours);
+            bool actualIsCellAlive = Game.IsCellAlive(true, neighbours);
             Assert.AreEqual(actualIsCellAlive, expectedIsCellAlive);
         }
 
@@ -106,7 +108,7 @@ namespace GameOfLifeTest
         public void OneCellDies()
         {
             world[1, 1].Live();
-            var nextWorld = world.NextIteration();
+            var nextWorld = game.NextIteration(world);
             Assert.AreEqual(0, nextWorld.GetLiveCells().Count());
         }
 
@@ -115,7 +117,7 @@ namespace GameOfLifeTest
         {
             world[1, 1].Live();
             world[1, 2].Live();
-            var nextWorld = world.NextIteration();
+            var nextWorld = game.NextIteration(world);
             Assert.AreEqual(0, nextWorld.GetLiveCells().Count());
         }
 
@@ -125,7 +127,7 @@ namespace GameOfLifeTest
             world[1, 1].Live();
             world[1, 2].Live();
             world[1, 3].Live();
-            var nextWorld = world.NextIteration();
+            var nextWorld = game.NextIteration(world);
             Assert.AreEqual(3, nextWorld.GetLiveCells().Count());
         }
 
@@ -150,7 +152,7 @@ namespace GameOfLifeTest
             world[4, 2].Live();
             world[4, 3].Live();
 
-            var newWorld = world.NextIteration();
+            var newWorld = game.NextIteration(world);
             
             Assert.AreEqual(6, newWorld.GetLiveCells().Count());
         }

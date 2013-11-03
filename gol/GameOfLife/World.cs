@@ -12,16 +12,16 @@ namespace GameOfLife
         private const int WorldHeight = 30;
 
         private readonly CellArray world;
-        private readonly IWorldPrinter worldPrinter;
+        private readonly IWorldPrinter printer;
 
         #endregion
 
         #region Construction
 
-        public World(IWorldPrinter worldPrinter)
+        public World(IWorldPrinter printer)
         {
             world = new CellArray(WorldWidth, WorldHeight);
-            this.worldPrinter = worldPrinter;
+            this.printer = printer;
         }
 
         #endregion
@@ -30,7 +30,7 @@ namespace GameOfLife
 
         public override string ToString()
         {
-            return worldPrinter.Print(this);
+            return printer.Print(this);
         }
 
         #endregion
@@ -45,40 +45,17 @@ namespace GameOfLife
 
         public int Width
         {
-            get
-            {
-                return WorldWidth;
-            }
+            get { return WorldWidth; }
         }
 
         public int Height
         {
-            get
-            {
-                return WorldHeight;
-            }
-        }
-        
-        #endregion
-
-        #region Public Members
-
-        public IWorld NextIteration()
-        {
-            var newWorld = new World(worldPrinter);
-
-            EachCell((cx, cy) => { 
-                if (IsCellAlive(cx, cy))
-                {
-                    newWorld[cx, cy].Live(); 
-                } });
-
-            return newWorld;
+            get { return WorldHeight; }
         }
 
-        public static bool IsCellAlive(bool cellAlive, int neighbours)
+        public IWorldPrinter Printer
         {
-            return !cellAlive ? neighbours == 3 : neighbours == 2 || neighbours == 3;
+            get { return printer; }
         }
 
         public int GetNumberOfNeighbours(int x, int y)
@@ -99,20 +76,9 @@ namespace GameOfLife
 
         #endregion
 
-        #region Private Members
+        #region Public Members
 
-        private IEnumerable<int> RangeBetween(int start, int end)
-        {
-            return Enumerable.Range(start, end - start + 1);
-        } 
-
-        private bool IsCellAlive(int x, int y)
-        {
-            ICell cell = this[x, y];
-            return IsCellAlive(cell.IsAlive, GetNumberOfNeighbours(x, y));
-        }
-
-        private void EachCell(Action<int, int> action)
+        public void ForEachCell(Action<int, int> action)
         {
             for (int x = 0; x < Width; x++)
             {
@@ -122,6 +88,15 @@ namespace GameOfLife
                 }
             }
         }
+
+        #endregion
+
+        #region Private Members
+
+        private IEnumerable<int> RangeBetween(int start, int end)
+        {
+            return Enumerable.Range(start, end - start + 1);
+        } 
 
         #endregion
     }
